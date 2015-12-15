@@ -9,7 +9,7 @@
 // useful C libraries
 #include <string.h>
 
-#include "bitmap.h"
+#include "headers/bitmap.h"
 
 // #define DEBUG // debugging constant
 

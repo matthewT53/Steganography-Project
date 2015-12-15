@@ -10,12 +10,12 @@
 // useful c libraries for memory manipulations
 #include <string.h>
 
-#include "steg.h"
-#include "bitmap.h"
-#include "text.h"
-#include "bits.h"
-#include "fileUtil.h"
-#include "sha_256.h"
+#include "headers/steg.h"
+#include "headers/bitmap.h"
+#include "headers/text.h"
+#include "headers/bits.h"
+#include "headers/fileUtil.h"
+#include "headers/sha_256.h"
 
 #define BITS_UNSIGNED_INT 32
 

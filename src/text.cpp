@@ -7,7 +7,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "text.h"
+#include "headers/text.h"
 
 using namespace std;
 

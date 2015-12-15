@@ -14,10 +14,10 @@
 
 #include <string.h>
 
-#include "bitmap.h"
-#include "steg.h"
-#include "deSteg.h"
-#include "bits.h"
+#include "headers/bitmap.h"
+#include "headers/steg.h"
+#include "headers/deSteg.h"
+#include "headers/bits.h"
 
 #define MAX_LEN 200
 

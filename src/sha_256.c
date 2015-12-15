@@ -17,7 +17,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "sha_256.h"
+#include "headers/sha_256.h"
  
 #define SHIFT_RIGHT(x, y)               ((x) >> (y))
 #define SHIFT_LEFT(x, y)                ((x) << (y))

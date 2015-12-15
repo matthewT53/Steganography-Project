@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-#include "bits.h"
+#include "headers/bits.h"
 
 /*
 	Notes:

@@ -9,8 +9,8 @@
 
 #include <string.h>
 
-#include "fileUtil.h"
-#include "bitmap.h"
+#include "headers/fileUtil.h"
+#include "headers/bitmap.h"
 
 using namespace std;
 

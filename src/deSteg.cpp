@@ -10,11 +10,11 @@
 
 #include <string.h>
 
-#include "deSteg.h"
-#include "bitmap.h"
-#include "bits.h"
-#include "fileUtil.h"
-#include "sha_256.h"
+#include "headers/deSteg.h"
+#include "headers/bitmap.h"
+#include "headers/bits.h"
+#include "headers/fileUtil.h"
+#include "headers/sha_256.h"
 
 // #define DEBUG
 
