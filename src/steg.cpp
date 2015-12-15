@@ -84,7 +84,7 @@ void Steg::hideInBmp() // hide file in a BMP image
 	char *textBuffer = textDoc.getBuffer(); // get the buffer containing the contents of the text file
 	char size[5];
 	unsigned int s = textDoc.getTextFileSize();
-	int enoughSpace = FALSE; // need to determine if we can fit the file
+	// int enoughSpace = FALSE; // need to determine if we can fit the file
 
 	if (textBuffer != NULL){ // check if there is a valid file buffer to write
 		#ifdef DEBUG
