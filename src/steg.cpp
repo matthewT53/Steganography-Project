@@ -11,8 +11,7 @@
 #include <string.h>
 
 #include "headers/steg.h"
-#include "headers/bitmap.h"
-#include "headers/text.h"
+#include "headers/file.h"
 #include "headers/bits.h"
 #include "headers/fileUtil.h"
 #include "headers/sha_256.h"
@@ -58,10 +57,10 @@ void Steg::beginHide() // calls one of the hiding processes
 void Steg::hideInBmp() // hide file in a BMP image
 {
 	// make calls to the bmp class to store the file inside the bmp image
-	Bitmap bmpFile(getOrigFileName());
+	File bmpFile(getOrigFileName());
 	unsigned int bmpSize = bmpFile.getFileSize();
 	// int fileHideFormat = detFileFormat(fileToHide);
-	char *bmpBuffer = bmpFile.getImageBuffer(); // should we be able to modify the bmp object?
+	char *bmpBuffer = bmpFile.getFileBuffer(); // should we be able to modify the bmp object?
 	char *stegImageBmp = bmpBuffer;
 
 	// password hashing stuff	
@@ -73,22 +72,22 @@ void Steg::hideInBmp() // hide file in a BMP image
 	sha256_update(sha256, userPassword , strlen( (char *) userPassword));
 	sha256_finish(sha256, hash);
 	sha256_tohex(sha256, hash);
-	strcpy((char *)hash, (char *)sha256->buffer);
+	strcpy((char *) hash, (char *) sha256->buffer);
 	hash[SHA_256_BLOCKSIZE] = 0;
 
 	#ifdef DEBUG
 		cout << "Hash: " << hash << endl;
 	#endif
 	
-	TextDocument textDoc(getHideFileName()); // create the text document object (text document represents anything really)
-	char *textBuffer = textDoc.getBuffer(); // get the buffer containing the contents of the text file
+	File textDoc(getHideFileName()); // create the text document object (text document represents anything really)
+	char *textBuffer = textDoc.getFileBuffer(); // get the buffer containing the contents of the text file
 	char size[5];
-	unsigned int s = textDoc.getTextFileSize();
+	unsigned int s = textDoc.getFileSize();
 	// int enoughSpace = FALSE; // need to determine if we can fit the file
 
 	if (textBuffer != NULL){ // check if there is a valid file buffer to write
 		#ifdef DEBUG
-			cout << "Text bytes: " << textDoc.getTextFileSize() << endl;
+			cout << "Text bytes: " << textDoc.getFileSize() << endl;
 		#endif
 
 		memset(size, 0,5);
@@ -104,7 +103,7 @@ void Steg::hideInBmp() // hide file in a BMP image
 	
 		storeInBmp((Word *) (stegImageBmp + PASSWORD_OFFSET), (Word *) hash, SHA_256_BLOCKSIZE); // store the password in the bmp
 		storeInBmp((Word *) (stegImageBmp + FILE_SIZE_OFFSET), (Word *) size, 4); // store the size of the text file in the bmp
-		storeInBmp((Word *) (stegImageBmp + PIXEL_OFFSET), (Word *) textBuffer, textDoc.getTextFileSize()); // store the contents of the file to hide
+		storeInBmp((Word *) (stegImageBmp + PIXEL_OFFSET), (Word *) textBuffer, textDoc.getFileSize()); // store the contents of the file to hide
 
 		#ifdef DEBUG
 			cout << "BMP size: " << bmpFile.getFileSize() << endl;
@@ -116,7 +115,6 @@ void Steg::hideInBmp() // hide file in a BMP image
 	delete sha256;
 }
 
-// there is a bug in this function that doesn't store the bits correctly
 void storeInBmp(unsigned char *bmpImageBuffer, unsigned char *dataToStore, unsigned int size)
 {
 	unsigned int curByteBmp = 0, curBitBmp = 0;

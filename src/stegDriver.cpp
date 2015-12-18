@@ -14,7 +14,6 @@
 
 #include <string.h>
 
-#include "headers/bitmap.h"
 #include "headers/steg.h"
 #include "headers/deSteg.h"
 #include "headers/bits.h"
@@ -68,6 +67,7 @@ int main()
 	return 0;
 }
 
+/*
 void test1()
 {
 	cout << "Testing the bitmap class: " << endl;
@@ -100,3 +100,4 @@ void test1()
 	r.reveal();
 	
 }
+*/

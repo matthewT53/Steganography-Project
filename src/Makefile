@@ -1,10 +1,10 @@
 CC=g++
-CFLAGS=-c
+CFLAGS=-Wall -c
 
 all: stegProject
 
-stegProject: stegDriver.o steg.o text.o bitmap.o bits.o fileUtil.o sha_256.o deSteg.o
-	$(CC) stegDriver.o steg.o text.o bitmap.o bits.o fileUtil.o sha_256.o deSteg.o -o steg  
+stegProject: stegDriver.o steg.o file.o format.o bits.o fileUtil.o sha_256.o deSteg.o
+	$(CC) stegDriver.o steg.o file.o format.o bits.o fileUtil.o sha_256.o deSteg.o -o steg  
 
 stegDriver.o: stegDriver.cpp
 	$(CC) $(CFLAGS) stegDriver.cpp
@@ -12,11 +12,11 @@ stegDriver.o: stegDriver.cpp
 steg.o: steg.cpp
 	$(CC) $(CFLAGS) steg.cpp
 
-text.o: text.cpp
-	$(CC) $(CFLAGS) text.cpp
+format.o: format.cpp
+	$(CC) $(CFLAGS) format.cpp
 
-bitmap.o: bitmap.cpp
-	$(CC) $(CFLAGS) bitmap.cpp 
+file.o: file.cpp
+	$(CC) $(CFLAGS) file.cpp 
 
 bits.o: bits.cpp
 	$(CC) $(CFLAGS) bits.cpp

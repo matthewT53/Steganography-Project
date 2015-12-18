@@ -11,7 +11,7 @@
 #include <string.h>
 
 #include "headers/deSteg.h"
-#include "headers/bitmap.h"
+#include "headers/file.h"
 #include "headers/bits.h"
 #include "headers/fileUtil.h"
 #include "headers/sha_256.h"
