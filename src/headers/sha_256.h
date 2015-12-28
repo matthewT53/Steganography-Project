@@ -50,4 +50,6 @@ sha256_finish (sha256_context*, U8*);
 void
 sha256_tohex (sha256_context*, U8*);
 
+unsigned char *hashPassword(unsigned char *pw); // returns a plain-text password hashed
+
 #endif /* _sha256_h */

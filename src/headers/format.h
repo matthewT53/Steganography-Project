@@ -33,11 +33,31 @@
 #define PIXELS_WIDTH_OFFSET 18
 #define PIXELS_HEIGHT_OFFSET 22
 
+// common offsets in the steg image file
+#define BMP_PASSWORD_OFFSET 54
+#define BMP_FILE_SIZE_OFFSET 54 + 256
+#define BMP_PIXEL_OFFSET 16 + 54 + 256
+
 // PNG image constants
 // #define PNG_SIGNATURE 0x89504E470D0A1A0A
 // #define PNG_SIGNATURE 0x0A1A0A0D474E5089 // reverse byte order
 #define PNG_SIGNATURE {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0};
 #define PNG_SIGNATURE_SIZE 8
+#define PNG_HEADER_SIZE PNG_SIGNATURE_SIZE
+
+#define PNG_WIDTH_OFFSET 16
+#define PNG_HEIGHT_OFFSET 20
+
+#define PNG_HEIGHT_SIZE 4
+#define PNG_WIDTH_SIZE 4
+
+#define PNG_IMAGE_START "IDAT" // symbol in png image marking the beginning of the image data 
+#define PNG_IMAGE_END "IEND" // symbol of end of png image data
+#define PNG_IMAGE_DATA_OFFSET 4 // offset from chunk header
+
+// offsets in a png image containing hidden data
+#define PNG_SIZE_OFFSET 256
+#define PNG_DATA_OFFSET 256 + 16
 
 #define MAX_SIGNATURE_SIZE (PNG_SIGNATURE_SIZE + 1)
 

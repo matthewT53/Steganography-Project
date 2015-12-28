@@ -3,8 +3,8 @@ CFLAGS=-Wall -c
 
 all: stegProject
 
-stegProject: stegDriver.o steg.o file.o format.o bits.o fileUtil.o sha_256.o deSteg.o
-	$(CC) stegDriver.o steg.o file.o format.o bits.o fileUtil.o sha_256.o deSteg.o -o steg  
+stegProject: stegDriver.o steg.o file.o format.o bits.o fileUtil.o sha_256.o deSteg.o lodepng.o
+	$(CC) stegDriver.o steg.o file.o format.o bits.o fileUtil.o sha_256.o deSteg.o lodepng.o -o steg  
 
 stegDriver.o: stegDriver.cpp
 	$(CC) $(CFLAGS) stegDriver.cpp
@@ -29,6 +29,9 @@ sha_256.o: sha_256.c
 
 deSteg.o: deSteg.cpp
 	$(CC) $(CFLAGS) deSteg.cpp
+
+lodepng.o: lodepng.cpp
+	$(CC) $(CFLAGS) lodepng.cpp
 
 clean: 
 	rm *.o steg

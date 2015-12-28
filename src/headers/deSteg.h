@@ -7,11 +7,6 @@
 #ifndef DESTEG_H
 #define DESTEG_H
 
-// common offsets in the steg image file
-#define PASSWORD_OFFSET 54
-#define FILE_SIZE_OFFSET 54 + 256
-#define PIXEL_OFFSET 16 + 54 + 256
-
 class Reveal
 {
 	public:
@@ -44,6 +39,7 @@ class Reveal
 
 		// reveal a specific image format
 		void revealBmp();
+		void revealPng();
 
 		// set functions
 		void setNameOfHiddenFile(char *nhf);

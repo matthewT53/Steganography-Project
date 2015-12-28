@@ -17,6 +17,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 #include "headers/sha_256.h"
  
 #define SHIFT_RIGHT(x, y)               ((x) >> (y))
@@ -389,4 +390,24 @@ void sha256_tohex(sha256_context *cur, U8* res)
 	cur->buffer[i*2] = hex_digits[res[i] >> 0x4];
 	cur->buffer[i*2+1] = hex_digits[res[i] & 0xF];
     }
+}
+
+// converts a plaintext password into a sha-256 hash
+unsigned char *hashPassword(unsigned char *pw)
+{
+	unsigned char *hash = new unsigned char[SHA_256_BLOCKSIZE];
+	sha256_context *sha256 = new sha256_context[1];
+	
+	// hash the password
+	assert(sha256 != NULL);
+	memset(hash, 0, SHA_256_BLOCKSIZE);
+	
+	sha256_start(sha256);
+	sha256_update(sha256, pw , strlen( (char *) pw));
+	sha256_finish(sha256, hash);
+	sha256_tohex(sha256, hash);
+	strcpy((char *) hash, (char *) sha256->buffer);
+	hash[SHA_256_BLOCKSIZE] = 0;	
+	delete sha256;
+	return hash;
 }

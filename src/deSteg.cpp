@@ -15,8 +15,9 @@
 #include "headers/bits.h"
 #include "headers/fileUtil.h"
 #include "headers/sha_256.h"
+#include "headers/lodepng.h"
 
-// #define DEBUG
+#define DEBUG
 
 using namespace std;
 
@@ -44,6 +45,10 @@ void Reveal::reveal() // removes hidden files from a steg image
 	int fileFormat = detFileFormat(getNameOfStegImage());
 	if (fileFormat == BMP_FORMAT){
 		revealBmp();
+	}
+
+	else if (fileFormat == PNG_FORMAT){
+		revealPng();
 	}
 		
 	else{
@@ -79,7 +84,7 @@ void Reveal::revealBmp() // reveal hidden files ina bmp image
 	sha256_finish(sha256, hash);
 	sha256_tohex(sha256, hash);
 
-	extractBits((Word *) (imageBuffer + PASSWORD_OFFSET), (Word *) storedHash, SHA_256_BLOCKSIZE);
+	extractBits((Word *) (imageBuffer + BMP_PASSWORD_OFFSET), (Word *) storedHash, SHA_256_BLOCKSIZE);
 	strncpy((char *) hash, (char *) sha256->buffer, SHA_256_BLOCKSIZE); // the sha256->buffer is not null terminated
 	#ifdef DEBUG 
 		cout << "Our hash: " << hash << endl;
@@ -88,12 +93,12 @@ void Reveal::revealBmp() // reveal hidden files ina bmp image
 
 	// check if user entered a matching password
 	if (strcmp((char *) hash, storedHash) == 0){
-		extractBits((Word *) (imageBuffer + FILE_SIZE_OFFSET), (Word *) imageSize, sizeof(int));
+		extractBits((Word *) (imageBuffer + BMP_FILE_SIZE_OFFSET), (Word *) imageSize, sizeof(int));
 		memcpy(&hfSize, imageSize, sizeof(unsigned int));
 	
 		fileBuf = new char [hfSize]; // create new buffer to store the file's contents
 		memset(fileBuf, 0, hfSize);
-		extractBits((Word *) (imageBuffer + PIXEL_OFFSET), (Word *) fileBuf, hfSize); // extract the hidden file
+		extractBits((Word *) (imageBuffer + BMP_PIXEL_OFFSET), (Word *) fileBuf, hfSize); // extract the hidden file
 		writeToFile(fileBuf, hfSize, getNameOfHiddenFile()); // write to disk
 		delete fileBuf;
 	}
@@ -103,6 +108,62 @@ void Reveal::revealBmp() // reveal hidden files ina bmp image
 	}
 
 	delete sha256;
+}
+
+// reveals a hidden file that was embedded in a png file
+void Reveal::revealPng()
+{
+	// password and hash stuff
+	unsigned char *hash = NULL;
+	unsigned char storedHash[SHA_256_BLOCKSIZE + 1];
+	unsigned char *password = (unsigned char *) getPassword();
+	
+	// steg file stuff
+	unsigned char *imageData = NULL;
+	unsigned int height = 0, width = 0;
+	unsigned int error = 0;
+
+	// hidden file stuff
+	unsigned char *fileBuffer = NULL;
+	unsigned int hiddenFs = 0;
+	unsigned char size[4] = {0};
+
+	error = lodepng_decode32_file(&imageData, &width, &height, getNameOfStegImage()); // decode the png file
+	if (error) { cout << "lodepng error code: " << error << " means: " << lodepng_error_text(error) << endl; }
+
+	// clear the storage space for the hash
+	memset(storedHash, 0, SHA_256_BLOCKSIZE + 1);
+	extractBits(imageData, storedHash, SHA_256_BLOCKSIZE);
+	hash = hashPassword(password);
+	#ifdef DEBUG
+		cout << "nb: " << SHA_256_BLOCKSIZE << endl;
+		cout << "Png image: " << getNameOfStegImage() << endl;
+		cout << "Hash: " << hash << endl;
+		cout << "Stored hash: " << storedHash << endl;
+	#endif	
+	
+	// compare the two hashes
+	if (strncmp((char *) storedHash, (char *) hash, SHA_256_BLOCKSIZE) == 0){
+		// extract the size of the hidden file
+		extractBits(imageData + PNG_SIZE_OFFSET, size, sizeof(unsigned int)); // extract the size of the hidden file
+		memcpy(&hiddenFs, size, sizeof(unsigned int));
+		#ifdef DEBUG
+			cout << "(PNG) Size of hidden file: " << hiddenFs << endl;
+		#endif
+
+		fileBuffer = new unsigned char [hiddenFs];
+		memset(fileBuffer, 0, hiddenFs);
+		extractBits(imageData + PNG_DATA_OFFSET, fileBuffer, hiddenFs);
+		writeToFile((char *) fileBuffer, hiddenFs, getNameOfHiddenFile());
+		delete fileBuffer;
+	}	
+
+	else{
+		cout << "Incorrect password." << endl;
+	}
+
+	delete hash;
+	delete imageData;
 }
 
 void extractBits(unsigned char *imageBuffer, unsigned char *buffer, unsigned int numBytes) // note: buffer needs to be allocated before passing it into this function

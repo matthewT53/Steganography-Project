@@ -39,7 +39,7 @@ int main()
 	cin >> choice;
 
 	if (choice){ // hide
-		cout << "Enter BMP file: " << endl;
+		cout << "Enter image file: " << endl;
 		cin >> bmp;
 		cout << "Enter file to hide: " << endl;
 		cin >> hide;

@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <fstream> // library for file I/O in c++
+#include <cassert>
 
 // useful c libraries for memory manipulations
 #include <string.h>
@@ -15,8 +16,16 @@
 #include "headers/bits.h"
 #include "headers/fileUtil.h"
 #include "headers/sha_256.h"
+// #include "myStrings.h" // contains nstrinstr() and nstrinstrl() -> useful for finding strs in file buffers
+#include "headers/lodepng.h" // interface for encoding/decoding png images
 
 #define BITS_UNSIGNED_INT 32
+
+// boolean constants
+#define TRUE 1
+#define FALSE 0
+
+#define DEBUG
 
 // #define DEBUG // debugging constant
 
@@ -26,13 +35,13 @@
 	* apply steganography to other file formats
 	* test on machines with different byte ordering
 	* no need to determine the format of the file to hide
-	* text document is just a generic buffer, can contain any file format
 */
 
 using namespace std;
 
 // helper functions for the steg process
-void storeInBmp(unsigned char *bmpImageBuffer, unsigned char *dataToStore, unsigned int size); // adds bits into a a bmp image file
+void storeInImage(unsigned char *bmpImageBuffer, unsigned char *dataToStore, unsigned int size); // adds bits into a a bmp image file
+int ableToStore(int imageSize, int fileToHideSize); // determines if we are able to store a file in an image
 
 Steg::Steg(char *originalFileName, char *fileToHideName, char *stegName, char *pwd) // constructor function
 {
@@ -47,6 +56,10 @@ void Steg::beginHide() // calls one of the hiding processes
 	int origFileFormat = detFileFormat(originalFile);
 	if (origFileFormat == BMP_FORMAT){
 		hideInBmp();
+	}
+
+	else if (origFileFormat == PNG_FORMAT){
+		hideInPng();
 	}
 
 	else{
@@ -101,9 +114,9 @@ void Steg::hideInBmp() // hide file in a BMP image
 			}
 		#endif
 	
-		storeInBmp((Word *) (stegImageBmp + PASSWORD_OFFSET), (Word *) hash, SHA_256_BLOCKSIZE); // store the password in the bmp
-		storeInBmp((Word *) (stegImageBmp + FILE_SIZE_OFFSET), (Word *) size, 4); // store the size of the text file in the bmp
-		storeInBmp((Word *) (stegImageBmp + PIXEL_OFFSET), (Word *) textBuffer, textDoc.getFileSize()); // store the contents of the file to hide
+		storeInImage((Word *) (stegImageBmp + BMP_PASSWORD_OFFSET), (Word *) hash, SHA_256_BLOCKSIZE); // store the password in the bmp
+		storeInImage((Word *) (stegImageBmp + BMP_FILE_SIZE_OFFSET), (Word *) size, 4); // store the size of the text file in the bmp
+		storeInImage((Word *) (stegImageBmp + BMP_PIXEL_OFFSET), (Word *) textBuffer, textDoc.getFileSize()); // store the contents of the file to hide
 
 		#ifdef DEBUG
 			cout << "BMP size: " << bmpFile.getFileSize() << endl;
@@ -115,12 +128,80 @@ void Steg::hideInBmp() // hide file in a BMP image
 	delete sha256;
 }
 
-void storeInBmp(unsigned char *bmpImageBuffer, unsigned char *dataToStore, unsigned int size)
+void Steg::hideInPng()
+{
+	// stuff for image decoding
+	unsigned char *image = NULL;
+	char *f = getOrigFileName();
+	unsigned int height = 0, width = 0;
+	unsigned int error = 0;
+	int imageSize = detFileSize(f);
+
+	// hashing stuff
+	unsigned char *password = (unsigned char *) getPassword();
+	unsigned char *hash = NULL;
+
+	// file we want to hide
+	File fHide(getHideFileName());
+	unsigned int fileToHideSize = fHide.getFileSize();
+	unsigned char *fBuf = (unsigned char *) fHide.getFileBuffer();
+	char size[5];
+
+	#ifdef DEBUG
+		cout << "Image size: " << imageSize << endl;
+		cout << "File to hide size: " << fileToHideSize << endl;
+	#endif
+	
+	// determine if we are able to hide the data
+	if (ableToStore(imageSize, (int) fileToHideSize)){
+		hash = hashPassword(password);
+		#ifdef DEBUG
+			cout << "Hash: " << hash << endl;
+		#endif
+	
+		// place the bytes of s into size
+		memset(size, 0, sizeof(size));
+		memcpy(size, &fileToHideSize, 4);
+	
+		error = lodepng_decode32_file(&image, &width, &height, f);
+		if (error) { cout << "Error code: " << error << " means: " << lodepng_error_text(error) << endl; } // output the error
+
+		// define offset constants
+		storeInImage(image, hash, SHA_256_BLOCKSIZE); // store the hash password
+		storeInImage(image + PNG_SIZE_OFFSET, (unsigned char *) size, sizeof(unsigned int)); // store the size of the file we are hiding
+		// cout << "fbuf: " << fBuf << endl;
+		storeInImage(image + PNG_DATA_OFFSET, fBuf, fileToHideSize); // store the file we want to hide
+	
+		error = lodepng_encode32_file(getStegFileName(), image, width, height);
+		if (error) { cout << "Error code: " << error << " means: " << lodepng_error_text(error) << endl; } // output the error
+		delete hash;
+	}
+
+	else{
+		cout << "Unable to fit file." << endl;
+	}
+
+	delete image;
+}
+
+int ableToStore(int imageSize, int fileToHideSize) // units: bytes
+{
+	int numBits = imageSize * 2; // # num bits that the image can hold
+	int ret = FALSE;
+	
+	if ((fileToHideSize * 8) < numBits){
+		ret = TRUE;
+	}
+	return ret;
+}
+
+// stores size bytes from dataToStore inside bmpImageBuffer
+void storeInImage(unsigned char *bmpImageBuffer, unsigned char *dataToStore, unsigned int size)
 {
 	unsigned int curByteBmp = 0, curBitBmp = 0;
 	unsigned int curByteHide = 0, curBitHide = 0;
 	Word mask = 0, bit = 0;
-
+	cout << "Size embed: " << size << endl;
 	if (bmpImageBuffer != NULL && dataToStore != NULL){
 		for (curByteHide = 0; curByteHide < size; curByteHide++){ // loop through the text document
 			// curBitBmp = 0; this produces a bug - if curBitBmp = 2 when inner loop finishes, it is reset to 0 which doesn't increment the next byte in the bmp image
@@ -161,11 +242,6 @@ void Steg::produceStegFile(char *stegBuffer, unsigned int bufsize)
 void Steg::hideInJpeg() // hide file in a JPEG image
 {
 	cout << "Hiding in jpeg" << endl;
-}
-
-void Steg::hideInPng() // hide file in a PNG image
-{
-	cout << "Hiding in png." << endl;
 }
 
 // get and set functions

@@ -7,11 +7,6 @@
 #ifndef STEG_H
 #define STEG_H
 
-// common offsets in the steg image file
-#define PASSWORD_OFFSET 54
-#define FILE_SIZE_OFFSET 54 + 256
-#define PIXEL_OFFSET 16 + 54 + 256
-
 class Steg
 {
 	public:
