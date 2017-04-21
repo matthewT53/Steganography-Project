@@ -10,9 +10,9 @@
 class Reveal
 {
 	public:
-		Reveal(char *nhf = NULL, char *nsi = NULL, char *pass = NULL); // constructor function
+		Reveal(char *imageFile = NULL, char *outputFile = NULL, char *pass = NULL); // constructor function
 		~Reveal(); // destructor function
-		
+
 		// reveal process
 		void reveal(); // removes hidden files from a steg image
 
@@ -20,17 +20,17 @@ class Reveal
 		char *getNameOfHiddenFile();
 		char *getNameOfStegImage();
 		char *getPassword();
-		char *getStegImageBuffer(); 
+		char *getStegImageBuffer();
 		unsigned int getSizeOfHiddenFile();
 		unsigned int getSizeOfStegImage();
 
 	private:
 		char *nameOfHiddenFile; // file removed from steg image
 		char *nameOfStegImage; // name of the steg image
-		
+
 		unsigned int hiddenFileSize; // size of the file to be removed
 		unsigned int stegImageSize; // size of the steg image
-		
+
 		char *stegImageBuffer; // buffer holding the contents of the steg image
 		char *password; // password to unlock the file
 

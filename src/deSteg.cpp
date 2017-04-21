@@ -13,7 +13,6 @@
 #include "headers/deSteg.h"
 #include "headers/file.h"
 #include "headers/bits.h"
-#include "headers/fileUtil.h"
 #include "headers/sha_256.h"
 #include "headers/lodepng.h"
 
@@ -25,10 +24,10 @@ using namespace std;
 void extractBits(unsigned char *imageBuffer, unsigned char *buffer, unsigned int numBytes); // removes numBytes * 8 bits and stores the info in buffer
 void writeToFile(char *fileBuffer, unsigned int size, char *fname); // should it take fileFormat as a parameter?
 
-Reveal::Reveal(char *nhf, char *nsi, char *pass) // constructor 
+Reveal::Reveal(char *imageFile, char *outputFile, char *pass) // constructor
 {
-	setNameOfHiddenFile(nhf);
-	setNameOfStegImage(nsi);
+	setNameOfHiddenFile(outputFile);
+	setNameOfStegImage(imageFile);
 	setPassword(pass);
 	setFileSizes();
 	setStegImageBuffer();
@@ -50,11 +49,11 @@ void Reveal::reveal() // removes hidden files from a steg image
 	else if (fileFormat == PNG_FORMAT){
 		revealPng();
 	}
-		
+
 	else{
 		cout << "The file format is not currently supported." << endl;
 	}
-	
+
 }
 
 // Note: need to make code neater by removing unecessary typecasting
@@ -72,7 +71,7 @@ void Reveal::revealBmp() // reveal hidden files ina bmp image
 	unsigned int hfSize = 0;
 
 	assert(sha256 != NULL && storedHash != NULL && userPassword != NULL);
-	
+
 	// clear storage arrays
 	memset(imageSize, 0, 5);
 	memset(hash, 0, SHA_256_BLOCKSIZE + 1);
@@ -86,7 +85,7 @@ void Reveal::revealBmp() // reveal hidden files ina bmp image
 
 	extractBits((Word *) (imageBuffer + BMP_PASSWORD_OFFSET), (Word *) storedHash, SHA_256_BLOCKSIZE);
 	strncpy((char *) hash, (char *) sha256->buffer, SHA_256_BLOCKSIZE); // the sha256->buffer is not null terminated
-	#ifdef DEBUG 
+	#ifdef DEBUG
 		cout << "Our hash: " << hash << endl;
 		cout << "Stored hash: " << storedHash << endl;
 	#endif
@@ -95,7 +94,7 @@ void Reveal::revealBmp() // reveal hidden files ina bmp image
 	if (strcmp((char *) hash, storedHash) == 0){
 		extractBits((Word *) (imageBuffer + BMP_FILE_SIZE_OFFSET), (Word *) imageSize, sizeof(int));
 		memcpy(&hfSize, imageSize, sizeof(unsigned int));
-	
+
 		fileBuf = new char [hfSize]; // create new buffer to store the file's contents
 		memset(fileBuf, 0, hfSize);
 		extractBits((Word *) (imageBuffer + BMP_PIXEL_OFFSET), (Word *) fileBuf, hfSize); // extract the hidden file
@@ -117,7 +116,7 @@ void Reveal::revealPng()
 	unsigned char *hash = NULL;
 	unsigned char storedHash[SHA_256_BLOCKSIZE + 1];
 	unsigned char *password = (unsigned char *) getPassword();
-	
+
 	// steg file stuff
 	unsigned char *imageData = NULL;
 	unsigned int height = 0, width = 0;
@@ -140,8 +139,8 @@ void Reveal::revealPng()
 		cout << "Png image: " << getNameOfStegImage() << endl;
 		cout << "Hash: " << hash << endl;
 		cout << "Stored hash: " << storedHash << endl;
-	#endif	
-	
+	#endif
+
 	// compare the two hashes
 	if (strncmp((char *) storedHash, (char *) hash, SHA_256_BLOCKSIZE) == 0){
 		// extract the size of the hidden file
@@ -156,7 +155,7 @@ void Reveal::revealPng()
 		extractBits(imageData + PNG_DATA_OFFSET, fileBuffer, hiddenFs);
 		writeToFile((char *) fileBuffer, hiddenFs, getNameOfHiddenFile());
 		delete fileBuffer;
-	}	
+	}
 
 	else{
 		cout << "Incorrect password." << endl;
@@ -169,7 +168,7 @@ void Reveal::revealPng()
 void extractBits(unsigned char *imageBuffer, unsigned char *buffer, unsigned int numBytes) // note: buffer needs to be allocated before passing it into this function
 {
 	unsigned int curByte = 0, cbit = 0, imageByte = 0;
-	Word mask1 = 1, mask2 = 1;	
+	Word mask1 = 1, mask2 = 1;
 	Word bit1 = 0, bit2 = 0;
 
 	if (imageBuffer != NULL && buffer != NULL){
@@ -181,7 +180,7 @@ void extractBits(unsigned char *imageBuffer, unsigned char *buffer, unsigned int
 				// extract the two least sig bits from each byte in the image
 				mask1 <<= 0;
 				mask2 <<= 1;
-			
+
 				bit1 = mask1 & imageBuffer[imageByte];
 				bit2 = mask2 & imageBuffer[imageByte];
 				#ifdef DEBUG
@@ -212,7 +211,7 @@ void extractBits(unsigned char *imageBuffer, unsigned char *buffer, unsigned int
 			}
 			// cout << "[BUFFER AFTER]: " << endl;
 			// showBits(&buffer[curByte]);
-			
+
 		}
 
 		#ifdef DEBUG
@@ -295,9 +294,3 @@ unsigned int Reveal::getSizeOfStegImage()
 {
 	return stegImageSize;
 }
-
-
-
-
-
-

@@ -20,6 +20,9 @@ using namespace std;
 
 typedef unsigned int w_uint;
 
+int detFileFormat(const char *f); // determines the format of a file
+unsigned int detFileSize(const char *f); // determines the size of a file
+
 class File
 {
 	public:
@@ -33,7 +36,7 @@ class File
 		w_uint getFileSize();
 		w_uint *getImageDim(); // should only be called for images
 		w_uint getFileFormat();
-		
+
 	private:
 		string fname; // name of file
 		w_uint size; // size of file
@@ -41,13 +44,13 @@ class File
 
 		char *fbuffer; // file stored in a buffer
 		int format; // identifies the type of file
-		
+
 		// set functions
 		void setFileName(const string fn);
 		void setFileSize();
 		void setFileFormat();
 		void setFileSpecs();
-		
+
 		void constructFileBuffer();
 };
 
