@@ -5,7 +5,7 @@ This software is able to hide any file in a variety of image and video formats.
 * Text
 * BMP
 * PNG
-* Jpeg (work in progress)
+* JPEG (work in progress)
 
 # Installing:
 Execute the Makefile to compile all the source files.
@@ -18,4 +18,5 @@ Execute the Makefile to compile all the source files.
 
 # Future work:
 * Add more file types that the user can use to hide stuff inside.
+* Allow the user to encrypt any files they want to hide.
 * Create a small and simple GUI for this program.
