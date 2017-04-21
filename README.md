@@ -11,9 +11,9 @@ This software is able to hide any file in a variety of image and video formats.
 Execute the Makefile to compile all the source files.
 
 # Usage:
-* To hide a file:
+* To hide a file:  
 `./steg -h <image file> <file to hide> <output file> -p <password>`
-* To reveal a hidden file:
+* To reveal a hidden file:  
 `./steg -r <image file> <output file> -p <password>`
 
 # Future work:
