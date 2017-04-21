@@ -1,5 +1,5 @@
 # Steganography-Project
-Software that is able to hide files inside various image and video formats
+This software is able to hide any file in a variety of image and video formats.
 
 # Supported formats:
 * Text
@@ -7,8 +7,15 @@ Software that is able to hide files inside various image and video formats
 * PNG
 * Jpeg (work in progress)
 
-# Method of steganography:
-* LSB (2 least significant bits)
+# Installing:
+Execute the Makefile to compile all the source files.
+
+# Usage:
+* To hide a file:
+`./steg -h <image file> <file to hide> <output file> -p <password>`
+* To reveal a hidden file:
+`./steg -r <image file> <output file> -p <password>`
 
 # Future work:
-* Add support for other formats like .avi and .mp4
+* Add more file types that the user can use to hide stuff inside.
+* Create a small and simple GUI for this program.
