@@ -29,7 +29,7 @@ void PasswordForm::handle_ok_button()
     }
 
     else{
-        QMessageBox::warning(this, "Password mismatch", "Passwords do not match, please enter the passwords again");
+        QMessageBox::warning(this, "Password mismatch", "Passwords do not match, please try again");
         ui->password_1->setText("");
         ui->password_2->setText("");
     }

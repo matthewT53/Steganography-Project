@@ -54,16 +54,16 @@ void MainWindow::performAction()
     if (this->passwordSet == true){
         // convert all the files and password to char * from QString
         QByteArray strBytes = ui->media_edit->text().toLocal8Bit();
-        strcpy(image_file, strBytes.data());
+        strncpy(image_file, strBytes.data(), MAX_LEN);
 
         strBytes = ui->input_edit->text().toLocal8Bit();
-        strcpy(input_file, strBytes.data());
+        strncpy(input_file, strBytes.data(), MAX_LEN);
 
         strBytes = ui->output_edit->text().toLocal8Bit();
-        strcpy(output_file, strBytes.data());
+        strncpy(output_file, strBytes.data(), MAX_LEN);
 
         strBytes = this->passwordWindow->getPassword().toLocal8Bit();
-        strcpy(password, strBytes.data());
+        strncpy(password, strBytes.data(), MAX_LEN);
 
         if (this->hideFile == true){
             // qDebug() << "In here" << endl;
