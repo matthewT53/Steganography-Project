@@ -133,6 +133,8 @@ void MainWindow::handleRadioChange()
 {
     QRadioButton *radioBut = (QRadioButton *) QObject::sender();
 
+    this->passwordSet = false;
+
     if (radioBut->text() == "Hide"){
         this->hideFile = true;
         ui->input_edit->setEnabled(true);

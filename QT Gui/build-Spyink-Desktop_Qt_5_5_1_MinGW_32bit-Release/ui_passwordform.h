@@ -69,10 +69,10 @@ public:
 
     void retranslateUi(QDialog *PasswordForm)
     {
-        PasswordForm->setWindowTitle(QApplication::translate("PasswordForm", "Dialog", 0));
+        PasswordForm->setWindowTitle(QApplication::translate("PasswordForm", "Enter password", 0));
         label->setText(QApplication::translate("PasswordForm", "Password:", 0));
         label_2->setText(QApplication::translate("PasswordForm", "Confirm:", 0));
-        label_3->setText(QApplication::translate("PasswordForm", "<html><head/><body><p><span style=\" font-size:24pt;\">Set a password</span></p></body></html>", 0));
+        label_3->setText(QApplication::translate("PasswordForm", "<html><head/><body><p><span style=\" font-size:24pt;\">Enter a password</span></p></body></html>", 0));
         button_cancel->setText(QApplication::translate("PasswordForm", "Cancel", 0));
         button_ok->setText(QApplication::translate("PasswordForm", "Ok", 0));
     } // retranslateUi

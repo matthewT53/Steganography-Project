@@ -131,7 +131,7 @@ int detFileFormat(const char *f) // determines which format a file is in
 		cout << "PNG SIG: " << signatures[1] << endl;
 	#endif
 
-	cout << "FName: " << f << endl;
+    // cout << "FName: " << f << endl;
 
 	if (file.is_open()){
 		for (i = 0; i < SUPPORTED_FORMATS; i++){
@@ -139,7 +139,7 @@ int detFileFormat(const char *f) // determines which format a file is in
 			memset(sigBuffer, 0, headerSizes[i]); //
 			file.read(sigBuffer, headerSizes[i]);
 			// memcpy(&signature, sigBuffer, headerSizes[i]);
-			cout << "fmat loop: " << format << endl;
+            // cout << "fmat loop: " << format << endl;
             if (memcmp(sigBuffer, signatures[i], headerSizes[i]) == 0){ // compare with the bmp signature
 				#ifdef DEBUG
 					cout << "Matching signatures: " << formats[i] << endl;
