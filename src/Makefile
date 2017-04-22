@@ -21,8 +21,8 @@ file.o: file.cpp
 bits.o: bits.cpp
 	$(CC) $(CFLAGS) bits.cpp
 
-sha_256.o: sha_256.c
-	$(CC) $(CFLAGS) sha_256.c
+sha_256.o: sha_256.cpp
+	$(CC) $(CFLAGS) sha_256.cpp
 
 deSteg.o: deSteg.cpp
 	$(CC) $(CFLAGS) deSteg.cpp

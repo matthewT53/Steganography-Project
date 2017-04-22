@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "src/headers/steg.h"
+#include "src/headers/deSteg.h"
 
 #include <QDebug>
 
@@ -11,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // events
     connect(ui->close, SIGNAL(clicked()), this, SLOT( closeWindow() ));
-    connect(ui->action, SIGNAL(clicked()), this, SLOT( openPasswordWindow() ));
+    connect(ui->action, SIGNAL(clicked()), this, SLOT( performAction() ));
 
 
     connect(ui->media_file, SIGNAL(clicked()), this, SLOT( openFileBrowseWindow() ));
@@ -25,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // leave the radio button set to hdie on default
     this->hideFile = true;
     ui->radio_hide->click();
+
+    this->passwordSet = false;
 }
 
 MainWindow::~MainWindow()
@@ -41,13 +45,55 @@ void MainWindow::closeWindow()
 // hides or reveals a file
 void MainWindow::performAction()
 {
+    char *image_file = NULL, *input_file = NULL, *output_file = NULL, *password = NULL;
 
+    if (this->passwordSet == true){
+        // convert all the files and password to char * from QString
+        QByteArray strBytes = this->media_file_path.toLocal8Bit();
+        image_file = strBytes.data();
+
+        strBytes = this->input_file_path.toLocal8Bit();
+        input_file = strBytes.data();
+
+        strBytes = this->output_file_path.toLocal8Bit();
+        output_file = strBytes.data();
+
+        strBytes = this->passwordWindow->getPassword().toLocal8Bit();
+        password = strBytes.data();
+
+        if (this->hideFile == true){
+            qDebug() << "In here" << endl;
+            Hide hideInFile(image_file, input_file, output_file, password);
+            hideInFile.beginHide();
+        }
+
+        else{
+            Reveal hiddenFile(image_file, output_file, password);
+            hiddenFile.reveal();
+        }
+
+        // refresh the window
+        this->passwordSet = false;
+        this->media_file_path = "";
+        this->input_file_path = "";
+        this->output_file_path = "";
+        this->passwordWindow->setPassword("");
+
+        ui->input_edit->setText("");
+        ui->output_edit->setText("");
+        ui->media_edit->setText("");
+    }
+
+    else{
+        openPasswordWindow();
+    }
 }
 
 void MainWindow::openPasswordWindow()
 {
     this->passwordWindow->setModal(true);
     this->passwordWindow->show();
+    this->passwordSet = true;
 }
 
 void MainWindow::openFileBrowseWindow()

@@ -15,6 +15,8 @@
 #include "headers/file.h"
 #include "headers/format.h"
 
+#define DEBUG
+
 using namespace std;
 
 File::File(const string fn) // constructor function

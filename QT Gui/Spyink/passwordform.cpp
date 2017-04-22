@@ -44,3 +44,8 @@ QString PasswordForm::getPassword()
 {
     return this->password;
 }
+
+void PasswordForm::setPassword(QString newPassword)
+{
+    this->password = newPassword;
+}

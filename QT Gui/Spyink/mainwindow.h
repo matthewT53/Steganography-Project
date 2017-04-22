@@ -23,6 +23,7 @@ private:
     PasswordForm *passwordWindow;
 
     bool hideFile; // determines whether we hide or reveal a file
+    bool passwordSet; // indicates whetehr the password has been set
 
     QString media_file_path; // file paths
     QString input_file_path;

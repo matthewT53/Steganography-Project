@@ -15,6 +15,7 @@ class PasswordForm : public QDialog
 public:
     explicit PasswordForm(QWidget *parent = 0);
     QString getPassword();
+    void setPassword(QString newPassword);
     ~PasswordForm();
 
 private:
