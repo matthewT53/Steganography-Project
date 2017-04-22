@@ -1,0 +1,14 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\passwordform.o
+./release\bits.o
+./release\deSteg.o
+./release\file.o
+./release\format.o
+./release\lodepng.o
+./release\steg.o
+./release\sha_256.o
+./release\moc_mainwindow.o
+./release\moc_passwordform.o
+);

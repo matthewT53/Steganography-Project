@@ -34,6 +34,7 @@ private slots:
     void performAction();
     void openPasswordWindow();
     void openFileBrowseWindow();
+    void handleRadioChange();
 };
 
 #endif // MAINWINDOW_H

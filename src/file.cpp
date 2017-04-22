@@ -138,7 +138,7 @@ int detFileFormat(const char *f) // determines which format a file is in
 			file.read(sigBuffer, headerSizes[i]);
 			// memcpy(&signature, sigBuffer, headerSizes[i]);
 			cout << "fmat loop: " << format << endl;
-			if (strcmp(sigBuffer, signatures[i]) == 0){ // compare with the bmp signature
+			if (memcmp(sigBuffer, signatures[i], headerSizes[i]) == 0){ // compare with the bmp signature
 				#ifdef DEBUG
 					cout << "Matching signatures: " << formats[i] << endl;
 				#endif

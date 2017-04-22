@@ -16,7 +16,7 @@
 #include "headers/sha_256.h"
 #include "headers/lodepng.h"
 
-#define DEBUG
+// #define DEBUG
 
 using namespace std;
 

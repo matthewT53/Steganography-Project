@@ -41,14 +41,14 @@ void showBits(Word *w)
 	int i = 0;
 	Word mask = LARGEST_POS_VALUE_CHAR;
 	Word res = 0;
-	cout << "w: " << *w << endl;
-	cout << "[";
+    cout << "w: " << *w << endl;
+    cout << "[";
 	for (i = 0; i < NUM_BITS_WORD; i++){
 		res = *w & mask;
-		cout << ((res) ? 1 : 0);
+        // cout << ((res) ? 1 : 0);
 		// cout << "mask: " << (char) mask << endl;
 		mask = mask >> 1;
 	}
-	cout << "]" << endl;
+    cout << "]" << endl;
 }
 
