@@ -35,6 +35,11 @@ void PasswordForm::handle_ok_button()
     }
 }
 
+void PasswordForm::handle_cancel_button()
+{
+    this->close();
+}
+
 QString PasswordForm::getPassword()
 {
     return this->password;

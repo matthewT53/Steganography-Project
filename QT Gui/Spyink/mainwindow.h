@@ -28,8 +28,6 @@ private:
     QString input_file_path;
     QString output_file_path;
 
-    QString password;
-
 private slots:
     void closeWindow();
     void performAction();

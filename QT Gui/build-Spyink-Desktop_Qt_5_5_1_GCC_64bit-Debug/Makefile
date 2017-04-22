@@ -50,14 +50,30 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../Spyink/main.cpp \
 		../Spyink/mainwindow.cpp \
-		../Spyink/passwordform.cpp moc_mainwindow.cpp \
+		../Spyink/passwordform.cpp \
+		../Spyink/src/bits.cpp \
+		../Spyink/src/deSteg.cpp \
+		../Spyink/src/file.cpp \
+		../Spyink/src/format.cpp \
+		../Spyink/src/lodepng.cpp \
+		../Spyink/src/steg.cpp \
+		../Spyink/src/sha_256.cpp moc_mainwindow.cpp \
 		moc_passwordform.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		passwordform.o \
+		bits.o \
+		deSteg.o \
+		file.o \
+		format.o \
+		lodepng.o \
+		steg.o \
+		sha_256.o \
 		moc_mainwindow.o \
 		moc_passwordform.o
-DIST          = ../../../../Programs/QT/5.5/gcc_64/mkspecs/features/spec_pre.prf \
+DIST          = ../Spyink/src/output.txt \
+		../Spyink/src/Makefile \
+		../../../../Programs/QT/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../Programs/QT/5.5/gcc_64/mkspecs/common/unix.conf \
 		../../../../Programs/QT/5.5/gcc_64/mkspecs/common/linux.conf \
 		../../../../Programs/QT/5.5/gcc_64/mkspecs/common/sanitize.conf \
@@ -192,9 +208,23 @@ DIST          = ../../../../Programs/QT/5.5/gcc_64/mkspecs/features/spec_pre.prf
 		../../../../Programs/QT/5.5/gcc_64/mkspecs/features/yacc.prf \
 		../../../../Programs/QT/5.5/gcc_64/mkspecs/features/lex.prf \
 		../Spyink/Spyink.pro ../Spyink/mainwindow.h \
-		../Spyink/passwordform.h ../Spyink/main.cpp \
+		../Spyink/passwordform.h \
+		../Spyink/src/headers/bits.h \
+		../Spyink/src/headers/deSteg.h \
+		../Spyink/src/headers/file.h \
+		../Spyink/src/headers/format.h \
+		../Spyink/src/headers/lodepng.h \
+		../Spyink/src/headers/sha_256.h \
+		../Spyink/src/headers/steg.h ../Spyink/main.cpp \
 		../Spyink/mainwindow.cpp \
-		../Spyink/passwordform.cpp
+		../Spyink/passwordform.cpp \
+		../Spyink/src/bits.cpp \
+		../Spyink/src/deSteg.cpp \
+		../Spyink/src/file.cpp \
+		../Spyink/src/format.cpp \
+		../Spyink/src/lodepng.cpp \
+		../Spyink/src/steg.cpp \
+		../Spyink/src/sha_256.cpp
 QMAKE_TARGET  = Spyink
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = Spyink
@@ -516,8 +546,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../Spyink/mainwindow.h ../Spyink/passwordform.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Spyink/main.cpp ../Spyink/mainwindow.cpp ../Spyink/passwordform.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Spyink/mainwindow.h ../Spyink/passwordform.h ../Spyink/src/headers/bits.h ../Spyink/src/headers/deSteg.h ../Spyink/src/headers/file.h ../Spyink/src/headers/format.h ../Spyink/src/headers/lodepng.h ../Spyink/src/headers/sha_256.h ../Spyink/src/headers/steg.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Spyink/main.cpp ../Spyink/mainwindow.cpp ../Spyink/passwordform.cpp ../Spyink/src/bits.cpp ../Spyink/src/deSteg.cpp ../Spyink/src/file.cpp ../Spyink/src/format.cpp ../Spyink/src/lodepng.cpp ../Spyink/src/steg.cpp ../Spyink/src/sha_256.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Spyink/mainwindow.ui ../Spyink/passwordform.ui $(DISTDIR)/
 
 
@@ -657,6 +687,7 @@ moc_mainwindow.cpp: ../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QMainWi
 		../../../../Programs/QT/5.5/gcc_64/include/QtCore/QDir \
 		../Spyink/passwordform.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QDialog \
+		../../../../Programs/QT/5.5/gcc_64/include/QtCore/QString \
 		../Spyink/mainwindow.h
 	/home/matthew/Programs/QT/5.5/gcc_64/bin/moc $(DEFINES) -I/home/matthew/Programs/QT/5.5/gcc_64/mkspecs/linux-g++ -I'/home/matthew/Git Projects/Steganography-Project/QT Gui/Spyink' -I/home/matthew/Programs/QT/5.5/gcc_64/include -I/home/matthew/Programs/QT/5.5/gcc_64/include/QtWidgets -I/home/matthew/Programs/QT/5.5/gcc_64/include/QtGui -I/home/matthew/Programs/QT/5.5/gcc_64/include/QtCore -I. ../Spyink/mainwindow.h -o moc_mainwindow.cpp
 
@@ -763,6 +794,7 @@ moc_passwordform.cpp: ../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QDial
 		../../../../Programs/QT/5.5/gcc_64/include/QtCore/qfiledevice.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtGui/qvector2d.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtGui/qtouchdevice.h \
+		../../../../Programs/QT/5.5/gcc_64/include/QtCore/QString \
 		../Spyink/passwordform.h
 	/home/matthew/Programs/QT/5.5/gcc_64/bin/moc $(DEFINES) -I/home/matthew/Programs/QT/5.5/gcc_64/mkspecs/linux-g++ -I'/home/matthew/Git Projects/Steganography-Project/QT Gui/Spyink' -I/home/matthew/Programs/QT/5.5/gcc_64/include -I/home/matthew/Programs/QT/5.5/gcc_64/include/QtWidgets -I/home/matthew/Programs/QT/5.5/gcc_64/include/QtGui -I/home/matthew/Programs/QT/5.5/gcc_64/include/QtCore -I. ../Spyink/passwordform.h -o moc_passwordform.cpp
 
@@ -901,6 +933,7 @@ main.o: ../Spyink/main.cpp ../Spyink/mainwindow.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtCore/QDir \
 		../Spyink/passwordform.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QDialog \
+		../../../../Programs/QT/5.5/gcc_64/include/QtCore/QString \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QApplication \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/qapplication.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1024,6 +1057,7 @@ mainwindow.o: ../Spyink/mainwindow.cpp ../Spyink/mainwindow.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtCore/QDir \
 		../Spyink/passwordform.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QDialog \
+		../../../../Programs/QT/5.5/gcc_64/include/QtCore/QString \
 		ui_mainwindow.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtCore/QVariant \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QAction \
@@ -1072,7 +1106,8 @@ mainwindow.o: ../Spyink/mainwindow.cpp ../Spyink/mainwindow.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/qradiobutton.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QToolButton \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/qtoolbutton.h \
-		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QWidget
+		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QWidget \
+		../../../../Programs/QT/5.5/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../Spyink/mainwindow.cpp
 
 passwordform.o: ../Spyink/passwordform.cpp ../Spyink/passwordform.h \
@@ -1179,6 +1214,7 @@ passwordform.o: ../Spyink/passwordform.cpp ../Spyink/passwordform.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtCore/qfiledevice.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtGui/qvector2d.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtGui/qtouchdevice.h \
+		../../../../Programs/QT/5.5/gcc_64/include/QtCore/QString \
 		ui_passwordform.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtCore/QVariant \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QAction \
@@ -1194,8 +1230,6 @@ passwordform.o: ../Spyink/passwordform.cpp ../Spyink/passwordform.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtGui/qinputmethod.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QButtonGroup \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/qbuttongroup.h \
-		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QDialogButtonBox \
-		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/qdialogbuttonbox.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QHeaderView \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/qheaderview.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/qabstractitemview.h \
@@ -1221,8 +1255,45 @@ passwordform.o: ../Spyink/passwordform.cpp ../Spyink/passwordform.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtGui/qtextcursor.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtGui/qtextformat.h \
 		../../../../Programs/QT/5.5/gcc_64/include/QtGui/qpen.h \
-		../../../../Programs/QT/5.5/gcc_64/include/QtGui/qtextoption.h
+		../../../../Programs/QT/5.5/gcc_64/include/QtGui/qtextoption.h \
+		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QPushButton \
+		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/QMessageBox \
+		../../../../Programs/QT/5.5/gcc_64/include/QtWidgets/qmessagebox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o passwordform.o ../Spyink/passwordform.cpp
+
+bits.o: ../Spyink/src/bits.cpp ../Spyink/src/headers/bits.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bits.o ../Spyink/src/bits.cpp
+
+deSteg.o: ../Spyink/src/deSteg.cpp ../Spyink/src/headers/deSteg.h \
+		../Spyink/src/headers/file.h \
+		../Spyink/src/headers/format.h \
+		../Spyink/src/headers/bits.h \
+		../Spyink/src/headers/sha_256.h \
+		../Spyink/src/headers/lodepng.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o deSteg.o ../Spyink/src/deSteg.cpp
+
+file.o: ../Spyink/src/file.cpp ../Spyink/src/headers/file.h \
+		../Spyink/src/headers/format.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o file.o ../Spyink/src/file.cpp
+
+format.o: ../Spyink/src/format.cpp ../Spyink/src/headers/format.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o format.o ../Spyink/src/format.cpp
+
+lodepng.o: ../Spyink/src/lodepng.cpp ../Spyink/src/headers/lodepng.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o lodepng.o ../Spyink/src/lodepng.cpp
+
+steg.o: ../Spyink/src/steg.cpp ../Spyink/src/headers/steg.h \
+		../Spyink/src/headers/file.h \
+		../Spyink/src/headers/format.h \
+		../Spyink/src/headers/bits.h \
+		../Spyink/src/headers/sha_256.h \
+		../Spyink/src/headers/lodepng.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o steg.o ../Spyink/src/steg.cpp
+
+sha_256.o: ../Spyink/src/sha_256.cpp ../Spyink/src/headers/sha_256.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sha_256.o ../Spyink/src/sha_256.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

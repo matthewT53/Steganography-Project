@@ -19,13 +19,9 @@ SOURCES += main.cpp\
     src/deSteg.cpp \
     src/file.cpp \
     src/format.cpp \
-    src/jpegDriver.cpp \
-    src/loadjpg.cpp \
     src/lodepng.cpp \
-    src/main.cpp \
-    src/savejpg.cpp \
     src/steg.cpp \
-    src/sha_256.c
+    src/sha_256.cpp
 
 HEADERS  += mainwindow.h \
     passwordform.h \
@@ -33,9 +29,7 @@ HEADERS  += mainwindow.h \
     src/headers/deSteg.h \
     src/headers/file.h \
     src/headers/format.h \
-    src/headers/loadjpg.h \
     src/headers/lodepng.h \
-    src/headers/savejpg.h \
     src/headers/sha_256.h \
     src/headers/steg.h
 
