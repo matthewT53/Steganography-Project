@@ -16,6 +16,7 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QTreeWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -23,17 +24,24 @@ class Ui_FileBrowser
 {
 public:
     QDialogButtonBox *buttonBox;
+    QTreeWidget *treeWidget;
 
     void setupUi(QDialog *FileBrowser)
     {
         if (FileBrowser->objectName().isEmpty())
             FileBrowser->setObjectName(QStringLiteral("FileBrowser"));
-        FileBrowser->resize(400, 300);
+        FileBrowser->resize(479, 400);
         buttonBox = new QDialogButtonBox(FileBrowser);
         buttonBox->setObjectName(QStringLiteral("buttonBox"));
-        buttonBox->setGeometry(QRect(30, 240, 341, 32));
+        buttonBox->setGeometry(QRect(120, 350, 341, 32));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+        treeWidget = new QTreeWidget(FileBrowser);
+        QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem();
+        __qtreewidgetitem->setText(0, QStringLiteral("1"));
+        treeWidget->setHeaderItem(__qtreewidgetitem);
+        treeWidget->setObjectName(QStringLiteral("treeWidget"));
+        treeWidget->setGeometry(QRect(20, 20, 441, 311));
 
         retranslateUi(FileBrowser);
         QObject::connect(buttonBox, SIGNAL(accepted()), FileBrowser, SLOT(accept()));

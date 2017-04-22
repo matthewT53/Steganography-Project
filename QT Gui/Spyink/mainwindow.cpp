@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // leave the radio button set to hdie on default
     this->hideFile = true;
+    ui->radio_hide->click();
 }
 
 MainWindow::~MainWindow()

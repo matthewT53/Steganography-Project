@@ -58,6 +58,7 @@ public:
         radio_hide = new QRadioButton(centralWidget);
         radio_hide->setObjectName(QStringLiteral("radio_hide"));
         radio_hide->setGeometry(QRect(170, 70, 117, 22));
+        radio_hide->setChecked(true);
         radio_reveal = new QRadioButton(centralWidget);
         radio_reveal->setObjectName(QStringLiteral("radio_reveal"));
         radio_reveal->setGeometry(QRect(320, 70, 117, 22));

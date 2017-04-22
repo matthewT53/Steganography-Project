@@ -2,6 +2,8 @@
 #define FILEBROWSER_H
 
 #include <QDialog>
+#include <QString>
+#include <QTreeWidgetItem>
 
 namespace Ui {
 class FileBrowser;
@@ -17,6 +19,10 @@ public:
 
 private:
     Ui::FileBrowser *ui;
+
+    void addRoot(QString filename);
+
+    void addChild(QTreeWidgetItem root, QString filename);
 };
 
 #endif // FILEBROWSER_H
