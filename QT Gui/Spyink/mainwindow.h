@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "filebrowser.h"
+#include "passwordform.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +19,16 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    PasswordForm *passwordWindow;
+    FileBrowser *fileBrowserWindow;
+
+    bool hideFile; // determines whether we hide or reveal a file
+
+private slots:
+    void closeWindow();
+    void performAction();
+    void openPasswordWindow();
+    void openFileBrowseWindow();
 };
 
 #endif // MAINWINDOW_H
