@@ -14,13 +14,10 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    filebrowser.cpp \
     passwordform.cpp
 
 HEADERS  += mainwindow.h \
-    filebrowser.h \
     passwordform.h
 
 FORMS    += mainwindow.ui \
-    filebrowser.ui \
     passwordform.ui

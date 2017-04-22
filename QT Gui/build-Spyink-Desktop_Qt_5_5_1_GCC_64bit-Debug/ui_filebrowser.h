@@ -24,7 +24,7 @@ class Ui_FileBrowser
 {
 public:
     QDialogButtonBox *buttonBox;
-    QTreeWidget *treeWidget;
+    QTreeWidget *fileTreeWidget;
 
     void setupUi(QDialog *FileBrowser)
     {
@@ -36,12 +36,12 @@ public:
         buttonBox->setGeometry(QRect(120, 350, 341, 32));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
-        treeWidget = new QTreeWidget(FileBrowser);
+        fileTreeWidget = new QTreeWidget(FileBrowser);
         QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem();
         __qtreewidgetitem->setText(0, QStringLiteral("1"));
-        treeWidget->setHeaderItem(__qtreewidgetitem);
-        treeWidget->setObjectName(QStringLiteral("treeWidget"));
-        treeWidget->setGeometry(QRect(20, 20, 441, 311));
+        fileTreeWidget->setHeaderItem(__qtreewidgetitem);
+        fileTreeWidget->setObjectName(QStringLiteral("fileTreeWidget"));
+        fileTreeWidget->setGeometry(QRect(20, 20, 441, 311));
 
         retranslateUi(FileBrowser);
         QObject::connect(buttonBox, SIGNAL(accepted()), FileBrowser, SLOT(accept()));

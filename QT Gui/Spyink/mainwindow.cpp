@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QDebug>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -19,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // set up the file browser and the password form
     this->passwordWindow = new PasswordForm(this);
-    this->fileBrowserWindow = new FileBrowser(this);
 
     // leave the radio button set to hdie on default
     this->hideFile = true;
@@ -51,6 +52,28 @@ void MainWindow::openPasswordWindow()
 
 void MainWindow::openFileBrowseWindow()
 {
-    this->fileBrowserWindow->setModal(true);
-    this->fileBrowserWindow->show();
+    QString filename = QFileDialog::getOpenFileName(this,
+                                         "Select a file",
+                                         "",
+                                         "All Files (*.*);;BMP images (.bmp);;PNG images (.png);;");
+    QToolButton *button = (QToolButton *)QObject::sender();
+    QString button_text = button->objectName();
+
+    // qDebug() << button_text << endl;
+
+   // store the filename and set the line edit appropriately
+   if (button_text == "media_file"){
+       this->media_file_path = filename;
+       ui->media_edit->setText(filename);
+   }
+
+   else if (button_text == "input_file"){
+       this->input_file_path = filename;
+       ui->input_edit->setText(filename);
+   }
+
+   else if (button_text == "output_file"){
+       this->output_file_path = filename;
+       ui->output_edit->setText(filename);
+   }
 }

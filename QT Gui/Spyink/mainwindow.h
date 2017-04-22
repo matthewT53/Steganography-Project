@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "filebrowser.h"
+#include <QFileDialog>
+#include <QDir>
 #include "passwordform.h"
 
 namespace Ui {
@@ -20,9 +21,14 @@ public:
 private:
     Ui::MainWindow *ui;
     PasswordForm *passwordWindow;
-    FileBrowser *fileBrowserWindow;
 
     bool hideFile; // determines whether we hide or reveal a file
+
+    QString media_file_path; // file paths
+    QString input_file_path;
+    QString output_file_path;
+
+    QString password;
 
 private slots:
     void closeWindow();
