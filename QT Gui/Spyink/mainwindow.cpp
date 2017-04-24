@@ -73,11 +73,13 @@ void MainWindow::performAction()
             // qDebug() << password << endl;
             Hide hideInFile(image_file, input_file, output_file, password);
             hideInFile.beginHide();
+            ui->progressBar->setValue(100); // will actually make this depend on something later
         }
 
         else{
             Reveal hiddenFile(image_file, output_file, password);
             hiddenFile.reveal();
+            ui->progressBar->setValue(100);
         }
 
         // refresh the window
