@@ -8,50 +8,45 @@
 #define FILE_H
 
 #include <string>
-#include "format.h"
-
-// indexes for the dim array
-#define HEIGHT 0
-#define WIDTH 1
-
-#define IMAGE_DIMENSIONS 2 // number of dimensions in an image
-
-using namespace std;
+#include <vector>
 
 typedef unsigned int w_uint;
-
-int detFileFormat(const char *f); // determines the format of a file
-unsigned int detFileSize(const char *f); // determines the size of a file
+typedef char Byte;
 
 class File
 {
 	public:
-		File(const string fn); // constructor
+        File(const std::string fn); // constructor
 		~File(); // destructor
 
-		// get functions for client to use
-		string getFileName();
-		char *getFileBuffer();
+        // returns the name of the file
+        std::string get_file_name();
 
-		w_uint getFileSize();
-		w_uint *getImageDim(); // should only be called for images
-		w_uint getFileFormat();
+        // Takes in another file object and hides it in the current file
+        virtual void hide(File &f) = 0;
+
+        // returns the size of the file
+        w_uint get_file_size();
+
+        // returns a 1x2 array containg width and height respectively
+        std::vector<w_uint> get_image_dim(); // should only be called for images
+
+        // returns the file format of this file.
+        w_uint get_file_format();
 
 	private:
-		string fname; // name of file
-		w_uint size; // size of file
-		w_uint dim[IMAGE_DIMENSIONS]; // height and width, only applicable to images
+        std::string file_name_; // name of file
+        w_uint size_; // size of file
+        std::vector<w_uint> dim_;
 
-		char *fbuffer; // file stored in a buffer
-		int format; // identifies the type of file
+        w_uint format; // identifies the type of file
 
-		// set functions
-		void setFileName(const string fn);
-		void setFileSize();
-		void setFileFormat();
-		void setFileSpecs();
+		// helper functions
+        void set_file_size();
+        void set_file_format();
+        void set_file_specs();
 
-		void constructFileBuffer();
+        void construct_file_buffer();
 };
 
 #endif

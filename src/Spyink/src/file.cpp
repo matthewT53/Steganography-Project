@@ -15,13 +15,9 @@
 #include "headers/file.h"
 #include "headers/format.h"
 
-// #define DEBUG
-
-using namespace std;
-
-File::File(const string fn) // constructor function
+File::File(const std::string file_name) // constructor function
+    : file_name_{file_name}
 {
-	setFileName(fn);
 	setFileSize();
 	setFileFormat();
 	constructFileBuffer();
@@ -30,18 +26,23 @@ File::File(const string fn) // constructor function
 
 File::~File() // destructor function
 {
-	delete fbuffer;
-}
-
-// set functions
-void File::setFileName(const string fn)
-{
-	fname = fn;
+	std::cout << "File destroyed!" << std::endl;
 }
 
 void File::setFileSize()
 {
-	size = detFileSize(getFileName().c_str());
+	w_uint fileSize = 0;
+	std::fstream file(file_name_, std::ios::binary | std::ios::in | std::ios::ate); // place file pos to end of file
+	if (file.is_open()){ // check if file opened correctly
+		fileSize = (int) file.tellg();
+		file.close();
+	}
+	
+	else{
+		
+	}
+	
+	
 }
 
 void File::setFileFormat()
@@ -73,7 +74,7 @@ void File::setFileSpecs()
 
 void File::constructFileBuffer() // reads contents of file into buffer
 {
-	fstream f(getFileName().c_str(), ios::binary | ios::in);
+    std::fstream f(getFileName().c_str(), std::ios::binary | std::ios::in);
 	w_uint fs = getFileSize();
 	fbuffer = new char [fs];
 
@@ -158,10 +159,10 @@ int detFileFormat(const char *f) // determines which format a file is in
 	return format;
 }
 
-unsigned int detFileSize(const char *f) // determine the size of the file
+w_uint detFileSize(const char *f) // determine the size of the file
 {
-	unsigned int fileSize = 0;
-	fstream file(f, ios::binary | ios::in | ios::ate); // place file pos to end of file
+	w_uint fileSize = 0;
+	std::fstream file(f, std::ios::binary | std::ios::in | std::ios::ate); // place file pos to end of file
 	if (file.is_open()){ // check if file opened correctly
 		fileSize = (int) file.tellg();
 		file.close();
