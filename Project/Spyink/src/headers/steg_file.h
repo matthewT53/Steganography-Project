@@ -23,7 +23,7 @@ class StegFile
 		~StegFile();
 
 		// Takes in another file object and hides it in the current file
-        virtual void hide(StegFile &f) const = 0;
+        virtual void hide(const StegFile &f) const = 0;
 
 		// Reveals a file that was hidden
 		virtual void reveal(const std::string &output_filename, const std::string &password) const = 0;
@@ -34,10 +34,12 @@ class StegFile
         // returns the size of the file
         w_uint get_file_size() const;
 
+	protected:
+		Byte *buffer_; 			  // file buffer
+
 	private:
         std::string file_name_;   // name of file
         w_uint size_; 			  // size of file and buffer
-		Byte *buffer_; // file buffer
 
 		// helper functions
         void set_file_size();

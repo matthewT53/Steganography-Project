@@ -18,7 +18,7 @@ class BMPFile : public StegFile
         BMPFile(const std::string &bmp_filename);
 
         // hides another file in this BMP image.
-        virtual void hide(StegFile &f) const;
+        virtual void hide(const StegFile &f) const;
 
         // reveals a file hidden inside this BMP image.
         virtual void reveal(const std::string &output_filename, const std::string &password) const;
