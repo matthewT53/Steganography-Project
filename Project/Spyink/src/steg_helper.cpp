@@ -1,7 +1,10 @@
 #include <iostream>
+#include <fstream>
 
 #include "headers/steg_helper.h"
 #include "headers/bits.h"
+
+// #define DEBUG
 
 bool able_to_store(w_uint image_size, w_uint input_size)
 {
@@ -45,5 +48,71 @@ void store_in_image(byte *image_buffer, byte *input_buffer, w_uint size)
 				curBitBmp++;
 			} // end of inner for loop
 		} // end of outer for loop
+	}
+}
+
+void extract_bits(byte *image_buffer, byte *output_buffer, w_uint num_bytes) // note: buffer needs to be allocated before passing it into this function
+{
+	unsigned int curByte = 0, cbit = 0, imageByte = 0;
+	Word mask1 = 1, mask2 = 1;
+	Word bit1 = 0, bit2 = 0;
+
+	if (image_buffer != NULL && output_buffer != NULL){
+		for (curByte = 0; curByte < num_bytes; curByte++){ // loop though buffer
+			// showBits(&buffer[curByte]);
+			for (cbit = 0; cbit < NUM_BITS_WORD; cbit += 2){ // extract two bits at a time
+				mask1 = 1;
+				mask2 = 1;
+				// extract the two least sig bits from each byte in the image
+				mask1 <<= 0;
+				mask2 <<= 1;
+
+				bit1 = mask1 & image_buffer[imageByte];
+				bit2 = mask2 & image_buffer[imageByte];
+				#ifdef DEBUG
+					std::cout << "[BEFORE SHIFT]:" << std::endl;
+					// cout << "bit1: " << (int) bit1 << endl;
+					// cout << "bit2: " << (int) bit2 << endl;
+					std::cout << "Bit1: " << ((bit1) ? 1 : 0) << std::endl;
+					std::cout << "Bit2: " << ((bit2) ? 1 : 0) << std::endl;
+				#endif
+				// shift them to appropriate bit positions in the buffer
+				bit1 <<= (cbit);
+				bit2 <<= (cbit);
+				// store the bits inside the buffer
+				output_buffer[curByte] |= bit1;
+				output_buffer[curByte] |= bit2;
+
+				#ifdef DEBUG
+					// cout << "[AFTER SHIFT]:" << endl;
+					// cout << "bit1: " << (int) bit1 << endl;
+					// cout << "bit2: " << (int) bit2 << endl;
+					std::cout << "Byte in imageBuffer: " << std::endl;
+					showBits(&image_buffer[imageByte]);
+					// cout << "[buffer]: " << endl;
+					// showBits(&buffer[curByte]);
+				#endif
+				// go to next byte in image
+				imageByte++;
+			}
+			// cout << "[BUFFER AFTER]: " << endl;
+			// showBits(&buffer[curByte]);
+
+		}
+
+		#ifdef DEBUG
+			std::cout << "imageByte: " << imageByte << std::endl;
+		#endif
+	}
+}
+
+// writes fileBuf to a file on the disk
+void write_to_file(char *output_buffer, w_uint size, std::string output_filename)
+{
+	std::fstream hf(output_filename, std::ios::binary | std::ios::out);
+
+	if (hf.is_open()){
+		hf.write(output_buffer, size);
+		hf.close();
 	}
 }

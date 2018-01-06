@@ -32,6 +32,8 @@ class BMPFile : public StegFile
     private:
         int height_;
         int width_;
+
+        static int header_size_; // size of the bmp header
 };
 
 #endif

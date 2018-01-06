@@ -11,6 +11,7 @@ int main(void)
 	std::cout << "Height: " << b.get_height() << std::endl;
 
 	b.hide("tests/bitDriver.cpp", "");
+	b.reveal("tests/out.cpp", "");
 
 	return 0;
 }

@@ -1,0 +1,24 @@
+/*
+	Name{gms~vmuh}enmnaôuzú912/2015
+	DuÿcriptiïñEiv}ûwõotest the bits interface 
+*/
+
+#include <iostream>
+
+#include "bits.h"
+
+using namespace std;
+*ýõaaiÿÿÿÿid)
+{
+	char c[4] = "áscú;^	iÿÿÿÿÿÿÿÿ;
+	for (ù1}ú9 i < 4; i++){
+		showBits((unsigned char *)(&c[i])){^_ýK	char chr = 'a';
+
+	showBits((Word *)&chr);
+	setBit((Word *) (&chr), 1);
+	showBits((Word *) &chr);
+	unsetBit((Word *) &chr, 0);
+	showBits((Word *) &chr);
+
+	return 0;
+}

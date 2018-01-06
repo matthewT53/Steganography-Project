@@ -61,6 +61,11 @@ void StegFile::set_file_buffer()
     }
 }
 
+Byte *StegFile::get_buffer() const
+{
+    return buffer_;
+}
+
 // get functions
 std::string StegFile::get_file_name() const
 {

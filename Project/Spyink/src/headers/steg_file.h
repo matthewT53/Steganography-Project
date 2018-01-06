@@ -41,6 +41,9 @@ class StegFile
 		// returns whether the file is opened
 		bool is_open() const;
 
+		// returns the file buffer
+		Byte *get_buffer() const;
+
 	protected:
 		Byte *buffer_; 			  // file buffer
 
