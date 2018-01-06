@@ -48,6 +48,8 @@ void StegFile::set_file_buffer()
 {
     std::fstream f(file_name_, std::ios::binary | std::ios::in);
 
+    buffer_ = nullptr;
+
     if (f.is_open()){
         buffer_ = new Byte[size_];
         f.read(buffer_, size_);

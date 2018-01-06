@@ -10,5 +10,7 @@ int main(void)
 	std::cout << "Width: " << b.get_width() << std::endl;
 	std::cout << "Height: " << b.get_height() << std::endl;
 
+	b.hide("tests/bitDriver.cpp", "");
+
 	return 0;
 }

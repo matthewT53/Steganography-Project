@@ -2,6 +2,9 @@
 	Name: Matthew Ta
 	Date: 17/12/2015
 	Description: Interface for storing and processing files
+
+	Used for reading files only.
+	THis file class object doesn't allow files to be created.
 */
 
 #ifndef FILE_H
@@ -34,6 +37,9 @@ class StegFile
 
         // returns the size of the file
         w_uint get_file_size() const;
+
+		// returns whether the file is opened
+		bool is_open() const;
 
 	protected:
 		Byte *buffer_; 			  // file buffer

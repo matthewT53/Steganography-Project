@@ -29,11 +29,22 @@ BMPFile::BMPFile(const std::string &bmp_filename)
 
 void BMPFile::hide(const std::string &input_filename, const std::string &password) const
 {
+    BinFile bin(input_filename);
+    std::fstream output_file(get_file_name() + "_out", std::ios::binary | std::ios::out);
+
     std::cout << "Hiding file: " << input_filename << std::endl;
 
-    BinFile bin(input_filename);
+    // check if our input file will fit into this BMP image.
+    if (able_to_store(get_file_size(), bin.get_file_size())){
+        store_in_image((byte *)StegFile::buffer_, (byte *)BinFile::StegFile::buffer_, bin.get_file_size());
 
-    
+        if (output_file.is_open()){
+            output_file.write(StegFile::buffer_, get_file_size());
+            output_file.close();
+        }
+
+        std::cout << "Finished hiding file." << std::endl;
+    }
 }
 
 void BMPFile::reveal(const std::string &output_filename, const std::string &password) const
