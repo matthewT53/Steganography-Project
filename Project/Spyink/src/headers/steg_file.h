@@ -9,6 +9,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 typedef unsigned int w_uint;
 typedef char Byte;
@@ -23,7 +24,7 @@ class StegFile
 		~StegFile();
 
 		// Takes in another file object and hides it in the current file
-        virtual void hide(const StegFile &f) const = 0;
+        virtual void hide(const std::string &input_filename, const std::string &password) const = 0;
 
 		// Reveals a file that was hidden
 		virtual void reveal(const std::string &output_filename, const std::string &password) const = 0;

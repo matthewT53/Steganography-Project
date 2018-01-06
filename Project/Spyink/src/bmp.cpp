@@ -1,7 +1,10 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 
 #include "headers/bmp.h"
+#include "headers/steg_helper.h"
+#include "headers/bin_file.h"
 
 BMPFile::BMPFile(const std::string &bmp_filename)
 : StegFile(bmp_filename)
@@ -24,9 +27,13 @@ BMPFile::BMPFile(const std::string &bmp_filename)
     height_ = (buffer[0] << 0) | (buffer[1] << 8) | (buffer[2] << 16) | (buffer[3] << 24);
 }
 
-void BMPFile::hide(const StegFile &f) const
+void BMPFile::hide(const std::string &input_filename, const std::string &password) const
 {
-    std::cout << "Hiding file: " << f.get_file_name() << std::endl;
+    std::cout << "Hiding file: " << input_filename << std::endl;
+
+    BinFile bin(input_filename);
+
+    
 }
 
 void BMPFile::reveal(const std::string &output_filename, const std::string &password) const

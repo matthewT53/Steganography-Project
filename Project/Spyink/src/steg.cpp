@@ -38,10 +38,6 @@
 
 using namespace std;
 
-// helper functions for the steg process
-void storeInImage(unsigned char *bmpImageBuffer, unsigned char *dataToStore, unsigned int size); // adds bits into a a bmp image file
-int ableToStore(int imageSize, int fileToHideSize); // determines if we are able to store a file in an image
-
 Hide::Hide(char *originalFileName, char *fileToHideName, char *stegName, char *pwd) // constructor function
 {
 	setOrigFileName(originalFileName);
