@@ -45,14 +45,16 @@ void BMPFile::hide(const std::string &input_filename, const std::string &passwor
         size_buffer[1] = (0x0000FF00 & input_size) >> 8;
         size_buffer[2] = (0x00FF0000 & input_size) >> 16;
         size_buffer[3] = (0xFF000000 & input_size) >> 24;
-        store_in_image((byte *) StegFile::buffer_ + header_size_, (byte *) size_buffer, 4);
+        store_in_image(reinterpret_cast<byte *>(StegFile::buffer_ + header_size_), size_buffer, 4);
 
         // store the input file
         // an int is 32 bits and each byte takes 2 of these bits so 16 bytes are required.
-        store_in_image((byte *) (StegFile::buffer_ + header_size_ + 16), (byte *) bin.get_buffer(), bin.get_file_size());
+        store_in_image(reinterpret_cast<byte *>(StegFile::buffer_ + header_size_ + 16), reinterpret_cast<byte *>(bin.get_buffer()), bin.get_file_size());
+
+        // write_to_file(bin.get_buffer(), bin.get_file_size(), "tests/correct.cpp");
 
         // write the new file containing the hidden file to disk
-        write_to_file(StegFile::buffer_, get_file_size(), get_file_name() + "_hidden");
+        write_to_file(reinterpret_cast<byte *>(StegFile::buffer_), get_file_size(), get_file_name() + "_hidden");
 
         std::cout << "Finished hiding file." << std::endl;
     }
@@ -65,7 +67,7 @@ void BMPFile::reveal(const std::string &output_filename, const std::string &pass
     w_uint output_size = 0;
 
     // extract the size of the hidden file
-    extract_bits((byte *)StegFile::buffer_ + header_size_, size_buffer, 4);
+    extract_bits(reinterpret_cast<byte *>(StegFile::buffer_ + header_size_), size_buffer, 4);
     output_size |= static_cast<w_uint>(size_buffer[0]);
     output_size |= static_cast<w_uint>(size_buffer[1]) << 8;
     output_size |= static_cast<w_uint>(size_buffer[2]) << 16;
@@ -75,12 +77,18 @@ void BMPFile::reveal(const std::string &output_filename, const std::string &pass
 
     // extract the hidden file into a buffer
     char *output_buffer = new char[output_size + 5]; // extra room
-    extract_bits((byte *) (StegFile::buffer_ + header_size_ + 16), (byte *)output_buffer, output_size);
+
+    // clear the buffer first
+    for (int i = 0; i < static_cast<int>(output_size); i++){
+        output_buffer[i] = 0;
+    }
+
+    extract_bits(reinterpret_cast<byte *>(StegFile::buffer_ + header_size_ + 16), (byte *)output_buffer, output_size);
 
     // write buffer to file
-    write_to_file(output_buffer, output_size, output_filename + "_revealed");
+    write_to_file(reinterpret_cast<byte *>(output_buffer), output_size, output_filename + "_revealed");
 
-    delete output_buffer;
+    delete [] output_buffer;
 }
 
 int BMPFile::get_height() const

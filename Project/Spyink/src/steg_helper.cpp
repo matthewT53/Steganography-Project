@@ -27,10 +27,13 @@ void store_in_image(byte *image_buffer, byte *input_buffer, w_uint size)
 	if (image_buffer != NULL && input_buffer != NULL){
 		for (curByteHide = 0; curByteHide < size; curByteHide++){ // loop through the text document
 			// curBitBmp = 0; this produces a bug - if curBitBmp = 2 when inner loop finishes, it is reset to 0 which doesn't increment the next byte in the bmp image
+			// std::cout << "Byte: ";
 			for (curBitHide = 0; curBitHide < NUM_BITS_WORD; curBitHide++){ // loop through the individual bits of each byte in the text document
 				mask = 1;
 				mask <<= curBitHide;
 				bit = input_buffer[curByteHide] & mask; // extract a bit from a byte of the text document
+
+				//	std::cout << ((bit) ? 1 : 0);
 
 				if (curBitBmp > 1){ // only hide the text bits in the 2 LSB's (least significant bits)
 					curBitBmp = 0;
@@ -47,11 +50,13 @@ void store_in_image(byte *image_buffer, byte *input_buffer, w_uint size)
 
 				curBitBmp++;
 			} // end of inner for loop
+
+		//	std::cout << std::endl;
 		} // end of outer for loop
 	}
 }
 
-void extract_bits(byte *image_buffer, byte *output_buffer, w_uint num_bytes) // note: buffer needs to be allocated before passing it into this function
+void extract_bits(byte *image_buffer, byte *output_buffer, w_uint num_bytes)
 {
 	unsigned int curByte = 0, cbit = 0, imageByte = 0;
 	Word mask1 = 1, mask2 = 1;
@@ -107,12 +112,12 @@ void extract_bits(byte *image_buffer, byte *output_buffer, w_uint num_bytes) // 
 }
 
 // writes fileBuf to a file on the disk
-void write_to_file(char *output_buffer, w_uint size, std::string output_filename)
+void write_to_file(byte *output_buffer, w_uint size, std::string output_filename)
 {
 	std::fstream hf(output_filename, std::ios::binary | std::ios::out);
 
 	if (hf.is_open()){
-		hf.write(output_buffer, size);
+		hf.write((char *)output_buffer, size);
 		hf.close();
 	}
 }

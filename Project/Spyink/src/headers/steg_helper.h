@@ -22,6 +22,6 @@ bool able_to_store(w_uint image_size, w_uint input_size); // determines if we ar
 void extract_bits(byte *image_buffer, byte *output_buffer, w_uint num_bytes);
 
 // stores the contents of output_buffer onto a file on the disk
-void write_to_file(char *output_buffer, w_uint size, std::string output_filename);
+void write_to_file(byte *output_buffer, w_uint size, std::string output_filename);
 
 #endif

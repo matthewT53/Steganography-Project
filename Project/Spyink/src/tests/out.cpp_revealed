@@ -1,6 +1,7 @@
 /*
-	Name{gms~vmuh}enmnaôuzú912/2015
-	DuÿcriptiïñEiv}ûwõotest the bits interface 
+	Name: Matthew Ta
+	Date: 8/12/2015
+	Description: Driver to test the bits interface 
 */
 
 #include <iostream>
@@ -8,11 +9,16 @@
 #include "bits.h"
 
 using namespace std;
-*ýõaaiÿÿÿÿid)
+
+int main(void)
 {
-	char c[4] = "áscú;^	iÿÿÿÿÿÿÿÿ;
-	for (ù1}ú9 i < 4; i++){
-		showBits((unsigned char *)(&c[i])){^_ýK	char chr = 'a';
+	char c[4] = "abc";
+	int i = 0;
+	for (i = 0; i < 4; i++){
+		showBits((unsigned char *)(&c[i]));
+	}
+
+	char chr = 'a';
 
 	showBits((Word *)&chr);
 	setBit((Word *) (&chr), 1);
