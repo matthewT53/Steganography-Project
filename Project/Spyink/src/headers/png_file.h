@@ -5,11 +5,11 @@
 
 #include "steg_file.h"
 
-class PngFile : public StegFile
+class PNGFile : public StegFile
 {
     public:
         // constructor
-        PngFile(const std::string &filename);
+        PNGFile(const std::string &filename);
 
         // hides a file in this PNG image
         virtual void hide(const std::string &input_filename, const std::string &password) const;
@@ -29,8 +29,6 @@ class PngFile : public StegFile
 
         // raw image data
         Byte **image_data_;
-
-
 };
 
 #endif

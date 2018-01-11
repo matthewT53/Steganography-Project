@@ -7,6 +7,7 @@ int main(void)
 {
 	BMPFile b("images/tiger.bmp");
 
+	std::cout << "Testing BMP file: " << std::endl;
 	std::cout << "File size: " << b.get_file_size() << std::endl;
 	std::cout << "Width: " << b.get_width() << std::endl;
 	std::cout << "Height: " << b.get_height() << std::endl;
@@ -14,7 +15,11 @@ int main(void)
 	b.hide("tests/bitDriver.cpp", "");
 	b.reveal("tests/out.cpp", "");
 
-	
+	std::cout << "Testing PNG file: " << std::endl;
+	PNGFile p("images/dice.png");
+	std::cout << "File size: " << p.get_file_size() << std::endl;
+	std::cout << "Width: " << p.get_width() << std::endl;
+	std::cout << "Height: " << p.get_height() << std::endl;
 
 	return 0;
 }
