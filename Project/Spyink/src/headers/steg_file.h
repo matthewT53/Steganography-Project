@@ -15,7 +15,7 @@
 #include <memory>
 
 typedef unsigned int w_uint;
-typedef char Byte;
+typedef unsigned char Byte;
 
 class StegFile
 {

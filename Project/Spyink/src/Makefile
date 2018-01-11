@@ -3,32 +3,32 @@ CFLAGS=-c
 
 all: stegProject
 
-stegProject: main.o steg.o file.o format.o bits.o sha_256.o deSteg.o lodepng.o
-	$(CC) main.o steg.o file.o format.o bits.o sha_256.o deSteg.o lodepng.o -o steg
+stegProject: main.o bmp_file.o bin_file.o png_file.o steg_file.o steg_helper.o bits.o lodepng.o 
+	$(CC) main.o bmp_file.o bin_file.o png_file.o steg_file.o steg_helper.o bits.o lodepng.o -o run
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) main.cpp
 
-steg.o: steg.cpp
-	$(CC) $(CFLAGS) steg.cpp
+bmp_file.o: bmp_file.cpp
+	$(CC) $(CFLAGS) bmp_file.cpp
 
-format.o: format.cpp
-	$(CC) $(CFLAGS) format.cpp
+bin_file.o: bin_file.cpp
+	$(CC) $(CFLAGS) bin_file.cpp
 
-file.o: file.cpp
-	$(CC) $(CFLAGS) file.cpp
+png_file.o: png_file.cpp
+	$(CC) $(CFLAGS) png_file.cpp
+
+steg_file.o: steg_file.cpp
+	$(CC) $(CFLAGS) steg_file.cpp
+
+steg_helper.o: steg_helper.cpp
+	$(CC) $(CFLAGS) steg_helper.cpp
 
 bits.o: bits.cpp
 	$(CC) $(CFLAGS) bits.cpp
-
-sha_256.o: sha_256.c
-	$(CC) $(CFLAGS) sha_256.c
-
-deSteg.o: deSteg.cpp
-	$(CC) $(CFLAGS) deSteg.cpp
 
 lodepng.o: lodepng.cpp
 	$(CC) $(CFLAGS) lodepng.cpp
 
 clean:
-	rm *.o steg
+	rm *.o run

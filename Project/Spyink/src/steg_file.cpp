@@ -52,7 +52,7 @@ void StegFile::set_file_buffer()
 
     if (f.is_open()){
         buffer_ = new Byte[size_];
-        f.read(buffer_, size_);
+        f.read(reinterpret_cast<char *>(buffer_), size_);
         f.close();
     }
 
