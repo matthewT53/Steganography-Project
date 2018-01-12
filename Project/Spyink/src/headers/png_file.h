@@ -11,6 +11,9 @@ class PNGFile : public StegFile
         // constructor
         PNGFile(const std::string &filename);
 
+        // destructor
+        virtual ~PNGFile();
+
         // hides a file in this PNG image
         virtual void hide(const std::string &input_filename, const std::string &password) const;
 
@@ -28,7 +31,7 @@ class PNGFile : public StegFile
         w_uint width_;
 
         // raw image data
-        Byte **image_data_;
+        Byte *image_data_;
 };
 
 #endif

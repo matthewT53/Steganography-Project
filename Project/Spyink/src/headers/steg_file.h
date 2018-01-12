@@ -24,7 +24,7 @@ class StegFile
         StegFile(const std::string filename);
 
 		// destructor
-		~StegFile();
+		virtual ~StegFile();
 
 		// Takes in another file object and hides it in the current file
         virtual void hide(const std::string &input_filename, const std::string &password) const = 0;

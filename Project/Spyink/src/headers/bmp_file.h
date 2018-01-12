@@ -17,6 +17,8 @@ class BMPFile : public StegFile
         // constructor
         BMPFile(const std::string &bmp_filename);
 
+        // no need for destructor, just destroy the base class then we're done
+
         // hides another file in this BMP image.
         virtual void hide(const std::string &input_filename, const std::string &password) const;
 
