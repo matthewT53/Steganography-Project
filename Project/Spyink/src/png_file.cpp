@@ -63,7 +63,6 @@ void PNGFile::reveal(const std::string &output_filename, const std::string &pass
     std::cout << "Revealing what was hidden in this PNG image." << std::endl;
     byte size_buffer[4] = {0};
     w_uint output_size = 0;
-    w_uint error = 0;
 
     // extract the size of the hidden file
     extract_bits(image_data_, size_buffer, 4);
