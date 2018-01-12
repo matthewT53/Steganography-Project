@@ -61,6 +61,32 @@ void PNGFile::hide(const std::string &input_filename, const std::string &passwor
 void PNGFile::reveal(const std::string &output_filename, const std::string &password) const
 {
     std::cout << "Revealing what was hidden in this PNG image." << std::endl;
+    byte size_buffer[4] = {0};
+    w_uint output_size = 0;
+    w_uint error = 0;
+
+    // extract the size of the hidden file
+    extract_bits(image_data_, size_buffer, 4);
+    output_size |= static_cast<w_uint>(size_buffer[0]);
+    output_size |= static_cast<w_uint>(size_buffer[1]) << 8;
+    output_size |= static_cast<w_uint>(size_buffer[2]) << 16;
+    output_size |= static_cast<w_uint>(size_buffer[3]) << 24;
+
+    std::cout << "Hidden file size: " << output_size << std::endl;
+
+    // extract the hidden file into a buffer
+    char *output_buffer = new char[output_size + 5]; // extra room
+
+    // clear the buffer first
+    for (int i = 0; i < static_cast<int>(output_size); i++){
+        output_buffer[i] = 0;
+    }
+
+    extract_bits((image_data_ + 16), (Byte *)output_buffer, output_size);
+
+    // write buffer to file
+    write_to_file(reinterpret_cast<Byte *>(output_buffer), output_size, output_filename + "_revealed");
+    delete [] output_buffer;
 }
 
 w_uint PNGFile::get_height() const

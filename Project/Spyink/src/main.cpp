@@ -15,6 +15,8 @@ int main(void)
 	b.hide("tests/bitDriver.cpp", "");
 	b.reveal("tests/out.cpp", "");
 
+	std::cout << std::endl;
+
 	std::cout << "Testing PNG file: " << std::endl;
 	PNGFile p("images/dice.png");
 	std::cout << "File size: " << p.get_file_size() << std::endl;
@@ -22,6 +24,7 @@ int main(void)
 	std::cout << "Height: " << p.get_height() << std::endl;
 
 	p.hide("tests/bitDriver.cpp", "");
+	p.reveal("tests/png.cpp", "");
 
 	return 0;
 }
