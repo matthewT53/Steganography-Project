@@ -1,12 +1,13 @@
 #include <iostream>
 #include <string>
-#include <fstream>
+#include <vector>
 
 #include "headers/bmp_file.h"
 #include "headers/steg_helper.h"
 #include "headers/bin_file.h"
 
 int BMPFile::header_size_ = 54;
+std::vector<Byte> BMPFile::signature_ = {0x42, 0x4D}; // BM
 
 BMPFile::BMPFile(const std::string &bmp_filename)
 : StegFile(bmp_filename)

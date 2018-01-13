@@ -2,6 +2,7 @@
 
 #include "headers/bmp_file.h"
 #include "headers/png_file.h"
+#include "headers/steg.h"
 
 int main(void)
 {
@@ -25,6 +26,11 @@ int main(void)
 
 	p.hide("tests/bitDriver.cpp", "");
 	p.reveal("tests/png.cpp", "");
+
+	std::cout << "\nTesting steg: " << std::endl;
+	Hide s("images/dice.png", "tests/bitDriver.cpp", "");
+
+	s.begin_hide();
 
 	return 0;
 }

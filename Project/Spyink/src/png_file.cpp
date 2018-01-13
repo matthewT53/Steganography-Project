@@ -1,9 +1,12 @@
 #include <iostream>
+#include <vector>
 
 #include "headers/png_file.h"
 #include "headers/lodepng.h"
 #include "headers/steg_helper.h"
 #include "headers/bin_file.h"
+
+std::vector<Byte> PNGFile::signature_ = {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
 
 PNGFile::PNGFile(const std::string &filename)
 : StegFile(filename)

@@ -2,6 +2,7 @@
 #define PNG_FILE_H
 
 #include <string>
+#include <vector>
 
 #include "steg_file.h"
 
@@ -25,6 +26,9 @@ class PNGFile : public StegFile
 
         // returns the width
         w_uint get_width() const;
+
+        // signjature of the png file
+        static std::vector<Byte> signature_;
 
     private:
         w_uint height_;

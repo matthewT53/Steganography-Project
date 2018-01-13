@@ -1,47 +1,39 @@
 /*
 	Name: Matthew Ta
-	Date: 7/12/2015
+	Date: 13/1/2018
 	Description: Interface for steganography functions
 */
 
 #ifndef STEG_H
 #define STEG_H
 
+#include <string>
+
+#include "steg_file.h"
+
 class Hide
 {
 	public:
-		// constructor
-		Hide(char *originalFileName = NULL, char *fileToHideName = NULL, char *stegName = NULL, char *pwd = NULL);
+		/*
+			Parameters:
+			* base_filename - file that will be used to store other files.
+			* input_filename - file to hide inside the base file.
+			* output_filename - file that will contain the input file inside a base file.
+			* password - password for encryption (optional)
+		*/
+		Hide(const std::string &base_filename, const std::string &input_filename, const std::string &password);
 
-		// set and get filename
-		void setOrigFileName(char *f = NULL);
-		char *getOrigFileName();
+		// destructor
+		~Hide();
 
-		void setHideFileName(char *hf = NULL);
-		char *getHideFileName();
-
-		// name of file that is constructed on the disk
-		void setStegFileName(char *stegName);
-		char *getStegFileName();
-
-		// set and get for password
-		void setPassword(char *pwd = NULL);
-		char *getPassword();
-
-		// hiding functions
-		void beginHide();
+		// begin the hide process
+		void begin_hide() const;
 
 	private:
-		char *originalFile; // name of the original file we are trying to open
-		char *fileToHide; // name of fiel to hide
-		char *stegFileName; // name of steg file that is created
-		char *password; // stores the plain text password (will be hashed)
+		StegFile *base_file_;
+		std::string input_filename_;
+		std::string password_;
 
-		// ultility functions
-		void hideInBmp(); // the original image is in bmp format
-		void hideInJpeg(); // the image is in jpeg format
-		void hideInPng(); // the image is in png format
-
-		void produceStegFile(char *stegBuffer, unsigned int bufsize); // produces a file from the steg process
+		// void produceStegFile(char *stegBuffer, unsigned int bufsize); // produces a file from the steg process
 };
 #endif

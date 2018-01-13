@@ -8,6 +8,7 @@
 #define BMP_H
 
 #include <string>
+#include <vector>
 
 #include "steg_file.h"
 
@@ -30,6 +31,9 @@ class BMPFile : public StegFile
 
         // returns the image's width
         int get_width() const;
+
+        // static data
+        static std::vector<Byte> signature_;
 
     private:
         int height_;
