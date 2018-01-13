@@ -1,36 +1,96 @@
 #include <iostream>
+#include <string>
 
-#include "headers/bmp_file.h"
-#include "headers/png_file.h"
 #include "headers/steg.h"
+#include "headers/de_steg.h"
 
-int main(void)
+// displays usage information
+void usage();
+
+// performs the steganography action
+void do_steg(const std::string &base_filename, const std::string &input_filename, const std::string &output_filename, const std::string &password, bool is_hide);
+
+int main(int argc, char *argv[])
 {
-	BMPFile b("images/tiger.bmp");
+	bool is_hide = false;
+	std::string base_filename;
+	std::string input_filename;
+	std::string output_filename;
+	std::string password = "";
 
-	std::cout << "Testing BMP file: " << std::endl;
-	std::cout << "File size: " << b.get_file_size() << std::endl;
-	std::cout << "Width: " << b.get_width() << std::endl;
-	std::cout << "Height: " << b.get_height() << std::endl;
+	if (argc < 6){
+		usage();
+	}
 
-	b.hide("tests/bitDriver.cpp", "");
-	b.reveal("tests/out.cpp", "");
+	else{
+		// process arguments
+		for (int i = 0; i < argc; i++){
+			std::string arg(argv[i]);
+			if (arg == "-b"){
+				base_filename = std::string(argv[++i]);
+			}
 
-	std::cout << std::endl;
+			else if (arg == "-h"){
+				is_hide = true;
+			}
 
-	std::cout << "Testing PNG file: " << std::endl;
-	PNGFile p("images/dice.png");
-	std::cout << "File size: " << p.get_file_size() << std::endl;
-	std::cout << "Width: " << p.get_width() << std::endl;
-	std::cout << "Height: " << p.get_height() << std::endl;
+			else if (arg == "-i"){
+				input_filename = std::string(argv[++i]);
+			}
 
-	p.hide("tests/bitDriver.cpp", "");
-	p.reveal("tests/png.cpp", "");
+			else if (arg == "-r"){
+				is_hide = false;
+			}
 
-	std::cout << "\nTesting steg: " << std::endl;
-	Hide s("images/dice.png", "tests/bitDriver.cpp", "");
+			else if (arg == "-o"){
+				output_filename = std::string(argv[++i]);
+			}
 
-	s.begin_hide();
+			else if (arg == "-p"){
+				password = std::string(argv[++i]);
+			}
+
+			else if (arg == "--help"){
+				usage();
+				exit(1);
+			}
+
+			else{
+				if (i > 0){ // skip the program name
+					std::cout << "Flag: " << arg << " not recognised." << std::endl;
+					exit(1);
+				}
+			}
+		}
+
+		do_steg(base_filename, input_filename, output_filename, password, is_hide);
+	}
 
 	return 0;
+}
+
+void usage()
+{
+	std::cout << "Welcome to HideMySh!t" << std::endl;
+	std::cout << "Your friendly steganography tool." << std::endl;
+	std::cout << "Options: " << std::endl;
+	std::cout << "\t-b\tSpecify base file. (used to hide a file into or reveal a hiden file)" << std::endl;
+	std::cout << "\t-h\tHide a file." << std::endl;
+	std::cout << "\t-i\tSpecify the input file. (Only use with the -h flag)" << std::endl;
+	std::cout << "\t-r\tReveal a file." << std::endl;
+	std::cout << "\t-o\tSpecify an output file. (Only use with the -r flag)" << std::endl;
+	std::cout << "\t-p\tPassword to encrypt the input file or decrypt the output file. (Optional)" << std::endl;
+}
+
+void do_steg(const std::string &base_filename, const std::string &input_filename, const std::string &output_filename, const std::string &password, bool is_hide)
+{
+	if (is_hide){
+		Hide h(base_filename, input_filename, password);
+		h.begin_hide();
+	}
+
+	else{
+		Reveal r(base_filename, output_filename, password);
+		r.begin_reveal();
+	}
 }

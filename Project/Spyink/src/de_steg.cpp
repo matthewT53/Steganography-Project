@@ -1,17 +1,16 @@
 #include <iostream>
 #include <string>
-#include <vector>
 
-#include "headers/steg.h"
+#include "headers/de_steg.h"
 #include "headers/bmp_file.h"
 #include "headers/png_file.h"
 #include "headers/bin_file.h"
 #include "headers/steg_helper.h"
 
-Hide::Hide(const std::string &base_filename, const std::string &input_filename, const std::string &password)
-: input_filename_{input_filename}, password_{password}
+Reveal::Reveal(const std::string &base_filename, const std::string &output_filename, const std::string &password)
+: output_filename_{output_filename}, password_{password}
 {
-	BinFile *base_bin_ = new BinFile{base_filename};
+    BinFile *base_bin_ = new BinFile{base_filename};
 
 	// check the file type of the base file
 	Byte *base_buffer = base_bin_->get_buffer();
@@ -30,12 +29,12 @@ Hide::Hide(const std::string &base_filename, const std::string &input_filename, 
 	delete base_bin_;
 }
 
-Hide::~Hide()
+Reveal::~Reveal()
 {
-	delete base_file_;
+    delete base_file_;
 }
 
-void Hide::begin_hide() const
+void Reveal::begin_reveal() const
 {
-	base_file_->hide(input_filename_, password_);
+    base_file_->reveal(output_filename_, password_);
 }

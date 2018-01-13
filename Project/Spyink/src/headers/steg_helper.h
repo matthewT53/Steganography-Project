@@ -8,6 +8,7 @@
 #define STEG_HELPER_H
 
 #include <string>
+#include <vector>
 
 typedef unsigned char byte;
 typedef unsigned int w_uint;
@@ -23,5 +24,8 @@ void extract_bits(byte *image_buffer, byte *output_buffer, w_uint num_bytes);
 
 // stores the contents of output_buffer onto a file on the disk
 void write_to_file(byte *output_buffer, w_uint size, std::string output_filename);
+
+// determines the type of a file based on known signatures
+bool compare_signature(std::vector<byte> &signature, byte *file_buffer, int compare_size);
 
 #endif

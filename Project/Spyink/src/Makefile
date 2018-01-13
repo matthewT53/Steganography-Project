@@ -3,14 +3,17 @@ CFLAGS=-c
 
 all: stegProject
 
-stegProject: main.o steg.o bmp_file.o bin_file.o png_file.o steg_file.o steg_helper.o bits.o lodepng.o
-	$(CC) main.o steg.o bmp_file.o bin_file.o png_file.o steg_file.o steg_helper.o bits.o lodepng.o -o run
+stegProject: main.o de_steg.o steg.o bmp_file.o bin_file.o png_file.o steg_file.o steg_helper.o bits.o lodepng.o
+	$(CC) main.o de_steg.o steg.o bmp_file.o bin_file.o png_file.o steg_file.o steg_helper.o bits.o lodepng.o -o run
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) main.cpp
 
 steg.o: steg.cpp
 	$(CC) $(CFLAGS) steg.cpp
+
+de_steg.o: de_steg.cpp
+	$(CC) $(CFLAGS) de_steg.cpp
 
 bmp_file.o: bmp_file.cpp
 	$(CC) $(CFLAGS) bmp_file.cpp

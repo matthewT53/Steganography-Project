@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 #include "headers/steg_helper.h"
 #include "headers/bits.h"
@@ -120,4 +121,19 @@ void write_to_file(byte *output_buffer, w_uint size, std::string output_filename
 		hf.write((char *)output_buffer, size);
 		hf.close();
 	}
+}
+
+bool compare_signature(std::vector<byte> &signature, byte *file_buffer, int compare_size)
+{
+	bool result = true;
+	int i = 0;
+
+	for (auto it = signature.begin(); it != signature.end(); ++it, i++){
+		if (*it != file_buffer[i]){
+			result = false;
+			break;
+		}
+	}
+
+	return result;
 }
