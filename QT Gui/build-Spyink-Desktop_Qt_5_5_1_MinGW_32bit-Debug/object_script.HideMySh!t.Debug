@@ -1,0 +1,17 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\passwordform.o
+./debug\bits.o
+./debug\format.o
+./debug\lodepng.o
+./debug\steg.o
+./debug\bin_file.o
+./debug\bmp_file.o
+./debug\de_steg.o
+./debug\png_file.o
+./debug\steg_file.o
+./debug\steg_helper.o
+./debug\moc_mainwindow.o
+./debug\moc_passwordform.o
+);

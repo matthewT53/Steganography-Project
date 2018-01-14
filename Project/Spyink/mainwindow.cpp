@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "src/headers/steg.h"
-#include "src/headers/deSteg.h"
+#include "src/headers/de_steg.h"
 
 #include <QDebug>
 
@@ -14,25 +14,23 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     // events
-    connect(ui->close, SIGNAL(clicked()), this, SLOT( closeWindow() ));
-    connect(ui->action, SIGNAL(clicked()), this, SLOT( performAction() ));
+    // connect(ui->close, SIGNAL(clicked()), this, SLOT( close_window() ));
+    connect(ui->action, SIGNAL(clicked()), this, SLOT( perform_action() ));
 
 
-    connect(ui->media_file, SIGNAL(clicked()), this, SLOT( openFileBrowseWindow() ));
-    connect(ui->input_file, SIGNAL(clicked()), this, SLOT( openFileBrowseWindow() ));
-    connect(ui->output_file, SIGNAL(clicked()), this, SLOT( openFileBrowseWindow() ));
-
+    connect(ui->media_file, SIGNAL(clicked()), this, SLOT( open_file_browse_window() ));
+    connect(ui->io_file, SIGNAL(clicked(bool)), this, SLOT( open_file_browse_window()));
 
     // set up the file browser and the password form
     this->passwordWindow = new PasswordForm(this);
 
     // leave the radio button set to hide on default
-    connect(ui->radio_hide, SIGNAL(clicked()), this, SLOT( handleRadioChange() ));
-    connect(ui->radio_reveal, SIGNAL(clicked()), this, SLOT( handleRadioChange() ));
-    this->hideFile = true;
+    connect(ui->radio_hide, SIGNAL(clicked()), this, SLOT( handle_radio_change() ));
+    connect(ui->radio_reveal, SIGNAL(clicked()), this, SLOT( handle_radio_change() ));
+    this->hide_file_ = true;
     ui->radio_hide->click();
 
-    this->passwordSet = false;
+    this->password_set_ = false;
 }
 
 MainWindow::~MainWindow()
@@ -41,72 +39,60 @@ MainWindow::~MainWindow()
 }
 
 // function that handles the event when the close button is pressed
-void MainWindow::closeWindow()
+void MainWindow::close_window()
 {
     this->close();
 }
 
 // hides or reveals a file
-void MainWindow::performAction()
+void MainWindow::perform_action()
 {
-    char image_file[MAX_LEN] = {0}, input_file[MAX_LEN] = {0}, output_file[MAX_LEN] = {0}, password[MAX_LEN] = {0};
+    char image_file[MAX_LEN] = {0}, io_file[MAX_LEN] = {0}, password[MAX_LEN] = {0};
 
-    if (this->passwordSet == true){
+    if (this->password_set_ == true){
         // convert all the files and password to char * from QString
         QByteArray strBytes = ui->media_edit->text().toLocal8Bit();
         strncpy(image_file, strBytes.data(), MAX_LEN);
 
-        strBytes = ui->input_edit->text().toLocal8Bit();
-        strncpy(input_file, strBytes.data(), MAX_LEN);
-
-        strBytes = ui->output_edit->text().toLocal8Bit();
-        strncpy(output_file, strBytes.data(), MAX_LEN);
+        strBytes = ui->io_edit->text().toLocal8Bit();
+        strncpy(io_file, strBytes.data(), MAX_LEN);
 
         strBytes = this->passwordWindow->getPassword().toLocal8Bit();
         strncpy(password, strBytes.data(), MAX_LEN);
 
-        if (this->hideFile == true){
-            // qDebug() << "In here" << endl;
-            // qDebug() << image_file << endl;
-            // qDebug() << input_file << endl;
-            // qDebug() << output_file << endl;
-            // qDebug() << password << endl;
-            Hide hideInFile(image_file, input_file, output_file, password);
-            hideInFile.beginHide();
-            ui->progressBar->setValue(100); // will actually make this depend on something later
+        if (this->hide_file_ == true){
+            Hide h(image_file, io_file, password);
+            h.begin_hide();
+            //ui->progressBar->setValue(100); // will actually make this depend on something later
         }
 
         else{
-            Reveal hiddenFile(image_file, output_file, password);
-            hiddenFile.reveal();
-            ui->progressBar->setValue(100);
+            Reveal r(image_file, io_file, password);
+            r.begin_reveal();
+            //ui->progressBar->setValue(100);
         }
 
         // refresh the window
-        this->passwordSet = false;
-        this->media_file_path = "";
-        this->input_file_path = "";
-        this->output_file_path = "";
+        this->password_set_ = false;
         this->passwordWindow->setPassword("");
 
-        ui->input_edit->setText("");
-        ui->output_edit->setText("");
+        ui->io_edit->setText("");
         ui->media_edit->setText("");
     }
 
     else{
-        openPasswordWindow();
+        open_password_window();
     }
 }
 
-void MainWindow::openPasswordWindow()
+void MainWindow::open_password_window()
 {
     this->passwordWindow->setModal(true);
     this->passwordWindow->show();
-    this->passwordSet = true;
+    this->password_set_ = true;
 }
 
-void MainWindow::openFileBrowseWindow()
+void MainWindow::open_file_browse_window()
 {
     QString filename = QFileDialog::getOpenFileName(this,
                                          "Select a file",
@@ -122,32 +108,26 @@ void MainWindow::openFileBrowseWindow()
        ui->media_edit->setText(filename);
    }
 
-   else if (button_text == "input_file"){
-       ui->input_edit->setText(filename);
-   }
-
-   else if (button_text == "output_file"){
-       ui->output_edit->setText(filename);
+   else if (button_text == "io_file"){
+       ui->io_edit->setText(filename);
    }
 }
 
-void MainWindow::handleRadioChange()
+void MainWindow::handle_radio_change()
 {
     QRadioButton *radioBut = (QRadioButton *) QObject::sender();
 
-    this->passwordSet = false;
+    this->password_set_ = false;
 
     if (radioBut->text() == "Hide"){
-        this->hideFile = true;
-        ui->input_edit->setEnabled(true);
-        ui->input_file->setEnabled(true);
+        this->hide_file_ = true;
+        ui->io_label->setText("Input file:");
         ui->action->setText("Hide");
     }
 
     else{
-        this->hideFile = false;
-        ui->input_edit->setEnabled(false);
-        ui->input_file->setEnabled(false);
+        this->hide_file_ = false;
+        ui->io_label->setText("Output file:");
         ui->action->setText("Reveal");
     }
 }

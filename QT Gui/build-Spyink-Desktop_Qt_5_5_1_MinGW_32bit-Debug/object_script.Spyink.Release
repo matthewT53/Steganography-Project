@@ -1,0 +1,17 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\passwordform.o
+./release\bits.o
+./release\format.o
+./release\lodepng.o
+./release\steg.o
+./release\bin_file.o
+./release\bmp_file.o
+./release\de_steg.o
+./release\png_file.o
+./release\steg_file.o
+./release\steg_helper.o
+./release\moc_mainwindow.o
+./release\moc_passwordform.o
+);

@@ -9,7 +9,7 @@
 #include <string>
 
 // standard c headers
-#include "string.h"
+// #include "string.h"
 
 // project headers
 #include "headers/steg_file.h"

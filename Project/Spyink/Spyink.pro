@@ -8,30 +8,38 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Spyink
+TARGET = HideMySh!t
 TEMPLATE = app
+
+CONFIG += c++11
 
 
 SOURCES += main.cpp\
         mainwindow.cpp \
     passwordform.cpp \
     src/bits.cpp \
-    src/deSteg.cpp \
-    src/file.cpp \
     src/format.cpp \
     src/lodepng.cpp \
     src/steg.cpp \
-    src/sha_256.cpp
+    src/bin_file.cpp \
+    src/bmp_file.cpp \
+    src/de_steg.cpp \
+    src/png_file.cpp \
+    src/steg_file.cpp \
+    src/steg_helper.cpp
 
 HEADERS  += mainwindow.h \
     passwordform.h \
     src/headers/bits.h \
-    src/headers/deSteg.h \
-    src/headers/file.h \
     src/headers/format.h \
     src/headers/lodepng.h \
-    src/headers/sha_256.h \
-    src/headers/steg.h
+    src/headers/steg.h \
+    src/headers/bin_file.h \
+    src/headers/bmp_file.h \
+    src/headers/de_steg.h \
+    src/headers/png_file.h \
+    src/headers/steg_file.h \
+    src/headers/steg_helper.h
 
 FORMS    += mainwindow.ui \
     passwordform.ui
