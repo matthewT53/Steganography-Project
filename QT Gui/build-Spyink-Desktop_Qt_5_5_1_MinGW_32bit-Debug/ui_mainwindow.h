@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -38,12 +39,15 @@ public:
     QLineEdit *io_edit;
     QToolButton *media_file;
     QToolButton *io_file;
+    QLabel *label;
+    QLineEdit *lineEdit;
+    QCheckBox *checkBox;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(271, 313);
+        MainWindow->resize(271, 418);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         AppName = new QLabel(centralWidget);
@@ -59,7 +63,7 @@ public:
         radio_reveal->setGeometry(QRect(130, 80, 117, 22));
         action = new QPushButton(centralWidget);
         action->setObjectName(QStringLiteral("action"));
-        action->setGeometry(QRect(70, 240, 131, 41));
+        action->setGeometry(QRect(70, 340, 131, 41));
         media_label = new QLabel(centralWidget);
         media_label->setObjectName(QStringLiteral("media_label"));
         media_label->setGeometry(QRect(30, 110, 81, 17));
@@ -71,13 +75,22 @@ public:
         media_edit->setGeometry(QRect(30, 130, 171, 21));
         io_edit = new QLineEdit(centralWidget);
         io_edit->setObjectName(QStringLiteral("io_edit"));
-        io_edit->setGeometry(QRect(30, 200, 171, 21));
+        io_edit->setGeometry(QRect(30, 190, 171, 21));
         media_file = new QToolButton(centralWidget);
         media_file->setObjectName(QStringLiteral("media_file"));
         media_file->setGeometry(QRect(210, 130, 31, 21));
         io_file = new QToolButton(centralWidget);
         io_file->setObjectName(QStringLiteral("io_file"));
-        io_file->setGeometry(QRect(210, 200, 31, 21));
+        io_file->setGeometry(QRect(210, 190, 31, 21));
+        label = new QLabel(centralWidget);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(30, 280, 47, 13));
+        lineEdit = new QLineEdit(centralWidget);
+        lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        lineEdit->setGeometry(QRect(30, 300, 171, 21));
+        checkBox = new QCheckBox(centralWidget);
+        checkBox->setObjectName(QStringLiteral("checkBox"));
+        checkBox->setGeometry(QRect(30, 240, 131, 21));
         MainWindow->setCentralWidget(centralWidget);
 
         retranslateUi(MainWindow);
@@ -96,6 +109,8 @@ public:
         io_label->setText(QApplication::translate("MainWindow", "Input file:", 0));
         media_file->setText(QApplication::translate("MainWindow", "...", 0));
         io_file->setText(QApplication::translate("MainWindow", "...", 0));
+        label->setText(QApplication::translate("MainWindow", "Password:", 0));
+        checkBox->setText(QApplication::translate("MainWindow", "Protect with encryption", 0));
     } // retranslateUi
 
 };
