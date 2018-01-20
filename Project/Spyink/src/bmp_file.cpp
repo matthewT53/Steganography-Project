@@ -52,8 +52,6 @@ void BMPFile::hide(const std::string &input_filename, const std::string &passwor
         // an int is 32 bits and each byte takes 2 of these bits so 16 bytes are required.
         store_in_image((StegFile::buffer_ + header_size_ + 16), reinterpret_cast<byte *>(bin.get_buffer()), bin.get_file_size());
 
-        // write_to_file(bin.get_buffer(), bin.get_file_size(), "tests/correct.cpp");
-
         // write the new file containing the hidden file to disk
         write_to_file(StegFile::buffer_, get_file_size(), get_file_name() + "_hidden");
 

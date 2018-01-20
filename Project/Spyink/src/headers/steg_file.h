@@ -1,6 +1,6 @@
 /*
 	Name: Matthew Ta
-	Date: 17/12/2015
+	Date: 1/1/2018
 	Description: Interface for storing and processing files
 
 	Used for reading files only.
@@ -12,7 +12,6 @@
 
 #include <string>
 #include <vector>
-#include <memory>
 
 typedef unsigned int w_uint;
 typedef unsigned char Byte;
@@ -32,16 +31,19 @@ class StegFile
 		// Reveals a file that was hidden
 		virtual void reveal(const std::string &output_filename, const std::string &password) const = 0;
 
-        // returns the name of the file
+		// Determines if we need to encrypt the input file or decrypt the output file
+		void set_encrypt(bool encrypt_status);
+
+        // Returns the name of the file
         std::string get_file_name() const;
 
-        // returns the size of the file
+        // Returns the size of the file
         w_uint get_file_size() const;
 
-		// returns whether the file is opened
+		// Determines whether the file is opened
 		bool is_open() const;
 
-		// returns the file buffer
+		// Returns the file buffer
 		Byte *get_buffer() const;
 
 	protected:
@@ -50,6 +52,7 @@ class StegFile
 	private:
         std::string file_name_;   // name of file
         w_uint size_; 			  // size of file and buffer
+		bool encrypt_status_; 	  // Determines if the input/output file needs to be encrypted/decrypted.
 
 		// helper functions
         void set_file_size();

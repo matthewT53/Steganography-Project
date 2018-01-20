@@ -51,8 +51,6 @@ void store_in_image(byte *image_buffer, byte *input_buffer, w_uint size)
 
 				curBitBmp++;
 			} // end of inner for loop
-
-		//	std::cout << std::endl;
 		} // end of outer for loop
 	}
 }
@@ -103,7 +101,6 @@ void extract_bits(byte *image_buffer, byte *output_buffer, w_uint num_bytes)
 			}
 			// cout << "[BUFFER AFTER]: " << endl;
 			// showBits(&buffer[curByte]);
-
 		}
 
 		#ifdef DEBUG
