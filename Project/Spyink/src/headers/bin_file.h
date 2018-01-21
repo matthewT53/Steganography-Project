@@ -18,10 +18,10 @@ class BinFile : public StegFile
         BinFile(const std::string &filename) : StegFile(filename) {}
 
         // Can't hide inside binary file
-        virtual void hide(const std::string &input_filename, const std::string &password) const;
+        virtual void hide(const std::string &input_filename, const std::string &password, bool do_encrypt) const;
 
         // Can't reveal from a binary file
-        virtual void reveal(const std::string &output_filename, const std::string &password) const;
+        virtual void reveal(const std::string &output_filename, const std::string &password, bool do_decrypt) const;
 };
 
 #endif

@@ -5,6 +5,7 @@
 #include "headers/bmp_file.h"
 #include "headers/steg_helper.h"
 #include "headers/bin_file.h"
+#include "headers/protect.h"
 
 int BMPFile::header_size_ = 54;
 std::vector<Byte> BMPFile::signature_ = {0x42, 0x4D}; // BM
@@ -30,7 +31,7 @@ BMPFile::BMPFile(const std::string &bmp_filename)
     height_ = (buffer[0] << 0) | (buffer[1] << 8) | (buffer[2] << 16) | (buffer[3] << 24);
 }
 
-void BMPFile::hide(const std::string &input_filename, const std::string &password) const
+void BMPFile::hide(const std::string &input_filename, const std::string &password, bool do_encrypt) const
 {
     BinFile bin(input_filename);
     byte size_buffer[4] = {0};
@@ -50,7 +51,13 @@ void BMPFile::hide(const std::string &input_filename, const std::string &passwor
 
         // store the input file
         // an int is 32 bits and each byte takes 2 of these bits so 16 bytes are required.
+        if (do_encrypt){
+            encrypt(bin.get_buffer(), bin.get_file_size(), password);
+        }
+
         store_in_image((StegFile::buffer_ + header_size_ + 16), reinterpret_cast<byte *>(bin.get_buffer()), bin.get_file_size());
+
+        std::cout << "Finished hiding input data." << std::endl;
 
         // write the new file containing the hidden file to disk
         write_to_file(StegFile::buffer_, get_file_size(), get_file_name() + "_hidden");
@@ -59,7 +66,7 @@ void BMPFile::hide(const std::string &input_filename, const std::string &passwor
     }
 }
 
-void BMPFile::reveal(const std::string &output_filename, const std::string &password) const
+void BMPFile::reveal(const std::string &output_filename, const std::string &password, bool do_decrypt) const
 {
     std::cout << "Revealing file: " << output_filename << std::endl;
     byte size_buffer[4] = {0};
@@ -83,6 +90,10 @@ void BMPFile::reveal(const std::string &output_filename, const std::string &pass
     }
 
     extract_bits(reinterpret_cast<byte *>(StegFile::buffer_ + header_size_ + 16), (byte *)output_buffer, output_size);
+
+    if (do_decrypt){
+        decrypt(reinterpret_cast<Byte *>(output_buffer), output_size, password);
+    }
 
     // write buffer to file
     write_to_file(reinterpret_cast<byte *>(output_buffer), output_size, output_filename + "_revealed");

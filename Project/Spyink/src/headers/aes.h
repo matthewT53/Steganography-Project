@@ -11,11 +11,11 @@
 
 // The #ifndef-guard allows it to be configured before #include'ing or at compile time.
 #ifndef CBC
-  #define CBC 1
+  #define CBC 0
 #endif
 
 #ifndef ECB
-  #define ECB 0
+  #define ECB 1
 #endif
 
 #ifndef CTR

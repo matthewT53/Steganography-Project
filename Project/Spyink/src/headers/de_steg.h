@@ -21,7 +21,7 @@ class Reveal
 		~Reveal();
 
 		// start the revealing process
-		void begin_reveal() const;
+		void begin_reveal(bool do_decrypt = false) const;
 
 	private:
 		StegFile *base_file_;

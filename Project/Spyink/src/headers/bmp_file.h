@@ -21,10 +21,10 @@ class BMPFile : public StegFile
         // no need for destructor, just destroy the base class then we're done
 
         // hides another file in this BMP image.
-        virtual void hide(const std::string &input_filename, const std::string &password) const;
+        virtual void hide(const std::string &input_filename, const std::string &password, bool do_encrypt) const;
 
         // reveals a file hidden inside this BMP image.
-        virtual void reveal(const std::string &output_filename, const std::string &password) const;
+        virtual void reveal(const std::string &output_filename, const std::string &password, bool do_decrypt) const;
 
         // returns the image's height
         int get_height() const;

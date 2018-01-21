@@ -28,7 +28,7 @@ PNGFile::~PNGFile()
     delete [] image_data_;
 }
 
-void PNGFile::hide(const std::string &input_filename, const std::string &password) const
+void PNGFile::hide(const std::string &input_filename, const std::string &password, bool do_encrypt) const
 {
     BinFile bin(input_filename);
     byte size_buffer[4] = {0};
@@ -61,7 +61,7 @@ void PNGFile::hide(const std::string &input_filename, const std::string &passwor
     }
 }
 
-void PNGFile::reveal(const std::string &output_filename, const std::string &password) const
+void PNGFile::reveal(const std::string &output_filename, const std::string &password, bool do_decrypt) const
 {
     std::cout << "Revealing what was hidden in this PNG image." << std::endl;
     byte size_buffer[4] = {0};

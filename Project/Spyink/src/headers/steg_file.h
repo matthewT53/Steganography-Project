@@ -26,13 +26,10 @@ class StegFile
 		virtual ~StegFile();
 
 		// Takes in another file object and hides it in the current file
-        virtual void hide(const std::string &input_filename, const std::string &password) const = 0;
+        virtual void hide(const std::string &input_filename, const std::string &password, bool do_encrypt) const = 0;
 
 		// Reveals a file that was hidden
-		virtual void reveal(const std::string &output_filename, const std::string &password) const = 0;
-
-		// Determines if we need to encrypt the input file or decrypt the output file
-		void set_encrypt(bool encrypt_status);
+		virtual void reveal(const std::string &output_filename, const std::string &password, bool do_decrypt) const = 0;
 
         // Returns the name of the file
         std::string get_file_name() const;
@@ -52,7 +49,6 @@ class StegFile
 	private:
         std::string file_name_;   // name of file
         w_uint size_; 			  // size of file and buffer
-		bool encrypt_status_; 	  // Determines if the input/output file needs to be encrypted/decrypted.
 
 		// helper functions
         void set_file_size();

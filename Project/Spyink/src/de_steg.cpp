@@ -34,7 +34,7 @@ Reveal::~Reveal()
     delete base_file_;
 }
 
-void Reveal::begin_reveal() const
+void Reveal::begin_reveal(bool do_decrypt) const
 {
-    base_file_->reveal(output_filename_, password_);
+    base_file_->reveal(output_filename_, password_, do_decrypt);
 }

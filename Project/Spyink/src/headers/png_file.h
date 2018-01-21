@@ -16,10 +16,10 @@ class PNGFile : public StegFile
         virtual ~PNGFile();
 
         // hides a file in this PNG image
-        virtual void hide(const std::string &input_filename, const std::string &password) const;
+        virtual void hide(const std::string &input_filename, const std::string &password, bool do_encrypt) const;
 
         // reveals a file that was hidden
-        virtual void reveal(const std::string &output_filename, const std::string &password) const;
+        virtual void reveal(const std::string &output_filename, const std::string &password, bool do_decrypt) const;
 
         // returns the height
         w_uint get_height() const;

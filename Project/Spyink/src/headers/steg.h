@@ -27,13 +27,11 @@ class Hide
 		~Hide();
 
 		// begin the hide process
-		void begin_hide() const;
+		void begin_hide(bool do_encrypt = false) const;
 
 	private:
 		StegFile *base_file_;
 		std::string input_filename_;
 		std::string password_;
-
-		// void produceStegFile(char *stegBuffer, unsigned int bufsize); // produces a file from the steg process
 };
 #endif

@@ -35,7 +35,7 @@ Hide::~Hide()
 	delete base_file_;
 }
 
-void Hide::begin_hide() const
+void Hide::begin_hide(bool do_encrypt) const
 {
-	base_file_->hide(input_filename_, password_);
+	base_file_->hide(input_filename_, password_, do_encrypt);
 }

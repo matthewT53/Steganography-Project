@@ -26,11 +26,6 @@ StegFile::~StegFile()
     delete [] buffer_;
 }
 
-void StegFile::set_encrypt(bool encrypt_status)
-{
-    encrypt_status_ = encrypt_status;
-}
-
 // determines the file's size
 void StegFile::set_file_size()
 {

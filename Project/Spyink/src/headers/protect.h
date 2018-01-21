@@ -18,10 +18,8 @@ typedef unsigned char Byte;
         * buffer - ptr to a buffer of bytes.
         * buf_len - size of the buffer.
         * password - password used to encrypt the buffer.
-    [Out]:
-        * iv - initialization vector.
 */
-void encrypt(Byte *buffer, int buf_len, const std::string &password, Byte *iv);
+void encrypt(Byte *buffer, int buf_len, const std::string &password);
 
 /*
     Decrypts a buffer in place using AES-256.
@@ -29,9 +27,7 @@ void encrypt(Byte *buffer, int buf_len, const std::string &password, Byte *iv);
         * buffer - ptr to a buffer of bytes.
         * buf_len - size of the buffer.
         * password - password used to encrypt the buffer.
-    [Out]:
-        * iv - initialization vector.
 */
-void decrypt(Byte *buffer, int buf_len, const std::string &password, Byte *iv);
+void decrypt(Byte *buffer, int buf_len, const std::string &password);
 
 #endif

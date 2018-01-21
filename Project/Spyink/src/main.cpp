@@ -8,11 +8,12 @@
 void usage();
 
 // performs the steganography action
-void do_steg(const std::string &base_filename, const std::string &input_filename, const std::string &output_filename, const std::string &password, bool is_hide);
+void do_steg(const std::string &base_filename, const std::string &input_filename, const std::string &output_filename, const std::string &password, bool is_hide, bool protect);
 
 int main(int argc, char *argv[])
 {
 	bool is_hide = false;
+	bool protect = false;
 	std::string base_filename;
 	std::string input_filename;
 	std::string output_filename;
@@ -48,6 +49,7 @@ int main(int argc, char *argv[])
 
 			else if (arg == "-p"){
 				password = std::string(argv[++i]);
+				protect = true;
 			}
 
 			else if (arg == "--help"){
@@ -63,7 +65,7 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		do_steg(base_filename, input_filename, output_filename, password, is_hide);
+		do_steg(base_filename, input_filename, output_filename, password, is_hide, protect);
 	}
 
 	return 0;
@@ -82,15 +84,15 @@ void usage()
 	std::cout << "\t-p\tPassword to encrypt the input file or decrypt the output file. (Optional)" << std::endl;
 }
 
-void do_steg(const std::string &base_filename, const std::string &input_filename, const std::string &output_filename, const std::string &password, bool is_hide)
+void do_steg(const std::string &base_filename, const std::string &input_filename, const std::string &output_filename, const std::string &password, bool is_hide, bool protect)
 {
 	if (is_hide){
 		Hide h(base_filename, input_filename, password);
-		h.begin_hide();
+		h.begin_hide(protect);
 	}
 
 	else{
 		Reveal r(base_filename, output_filename, password);
-		r.begin_reveal();
+		r.begin_reveal(protect);
 	}
 }

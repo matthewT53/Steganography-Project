@@ -3,8 +3,8 @@ CFLAGS=-c
 
 all: steg_project
 
-steg_project: main.o de_steg.o steg.o bmp_file.o bin_file.o png_file.o steg_file.o steg_helper.o bits.o lodepng.o aes.o sha256.o
-	$(CC) main.o de_steg.o steg.o bmp_file.o bin_file.o png_file.o steg_file.o steg_helper.o bits.o lodepng.o aes.o sha256.o -o run
+steg_project: main.o de_steg.o steg.o bmp_file.o bin_file.o png_file.o steg_file.o steg_helper.o bits.o lodepng.o aes.o sha256.o protect.o
+	$(CC) main.o de_steg.o steg.o bmp_file.o bin_file.o png_file.o steg_file.o steg_helper.o bits.o lodepng.o aes.o sha256.o protect.o -o run
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) main.cpp
@@ -41,6 +41,9 @@ aes.o: aes.c
 
 sha256.o: sha256.cpp
 	$(CC) $(CFLAGS) sha256.cpp
+
+protect.o: protect.cpp
+	$(CC) $(CFLAGS) protect.cpp
 
 clean:
 	rm *.o run
