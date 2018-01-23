@@ -30,4 +30,20 @@ void encrypt(Byte *buffer, int buf_len, const std::string &password);
 */
 void decrypt(Byte *buffer, int buf_len, const std::string &password);
 
+/*
+    Prepares the buffer for encryption.
+    Assumes buffer has enough space and is not a nullptr.
+
+    Adds padding to a buffer so that AES can be applied properly.
+*/
+void add_padding(Byte *buffer, int buf_size, int pad_len);
+
+/*
+    Removes padding from the decrypted buffer.
+
+    [Input]:
+    * new_size - length of the buffer not including padding bytes.
+*/
+void remove_padding(Byte *buffer, int buf_size, int *new_size);
+
 #endif

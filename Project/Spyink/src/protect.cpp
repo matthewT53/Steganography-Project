@@ -16,7 +16,6 @@ void encrypt(Byte *buffer, int buf_len, const std::string &password)
 
     for (int i = 0; i < buf_len; i += AES_BLOCKLEN){
         AES_ECB_encrypt(ctx, buffer + i);
-        std::cout << "i = " << i << std::endl;
     }
 
     std::cout << "Finished encryption." << std::endl;
@@ -38,4 +37,36 @@ void decrypt(Byte *buffer, int buf_len, const std::string &password)
     }
 
     delete ctx;
+}
+
+void add_padding(Byte *buffer, int buf_size, int pad_len)
+{
+    std::cout << "Padding lenth: " << pad_len << std::endl;
+    for (int i = 0; i < pad_len; i++){
+        buffer[buf_size-1-i] = static_cast<Byte>(pad_len);
+    }
+}
+
+void remove_padding(Byte *buffer, int buf_size, int *new_size)
+{
+    int pad_char = buffer[buf_size - 1];
+    int same_byte_count = 0;
+
+    for (int i = 0; i < pad_char; i++){
+        if (buffer[buf_size-1-i] == pad_char){
+            same_byte_count++;
+        }
+
+        else{
+            break;
+        }
+    }
+
+    if (same_byte_count == pad_char){
+        *new_size = buf_size - same_byte_count;
+    }
+
+    else{
+        *new_size = buf_size;
+    }
 }
