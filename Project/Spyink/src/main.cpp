@@ -75,7 +75,7 @@ void usage()
 {
 	std::cout << "Welcome to HideMySh!t" << std::endl;
 	std::cout << "Your friendly steganography tool." << std::endl;
-	std::cout << "Options: " << std::endl;
+	std::cout << "[Options]: " << std::endl;
 	std::cout << "\t-b\tSpecify base file. (used to hide a file into or reveal a hiden file)" << std::endl;
 	std::cout << "\t-h\tHide a file." << std::endl;
 	std::cout << "\t-i\tSpecify the input file. (Only use with the -h flag)" << std::endl;

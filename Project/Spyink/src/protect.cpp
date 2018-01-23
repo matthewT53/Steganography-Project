@@ -4,6 +4,7 @@
 #include "headers/aes.h"
 #include "headers/sha256.h"
 
+// need to re-size buffer to be a multiple of 16
 void encrypt(Byte *buffer, int buf_len, const std::string &password)
 {
     std::cout << "Encrypting buffer." << std::endl;

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include "headers/bmp_file.h"
 #include "headers/steg_helper.h"
@@ -36,6 +37,8 @@ void BMPFile::hide(const std::string &input_filename, const std::string &passwor
     BinFile bin(input_filename);
     byte size_buffer[4] = {0};
     w_uint input_size = bin.get_file_size();
+    Byte *input_buffer = nullptr;
+    w_uint input_fs = 0;
 
     std::cout << "Hiding file: " << input_filename << std::endl;
     std::cout << "Size: " << input_size << std::endl;
@@ -49,13 +52,27 @@ void BMPFile::hide(const std::string &input_filename, const std::string &passwor
         size_buffer[3] = (0xFF000000 & input_size) >> 24;
         store_in_image((StegFile::buffer_ + header_size_), size_buffer, 4);
 
-        // store the input file
-        // an int is 32 bits and each byte takes 2 of these bits so 16 bytes are required.
+        // encrypt the input file
+        input_buffer = bin.get_buffer();
+        input_fs = bin.get_file_size();
         if (do_encrypt){
-            encrypt(bin.get_buffer(), bin.get_file_size(), password);
+            // make sure the the buffer size is a multiple of 16
+            if (input_fs % 16 != 0){
+                w_uint new_size = input_fs + (16 - (input_fs % 16));
+                Byte *new_buffer = new Byte[new_size];
+
+                std::copy(input_buffer, input_buffer + input_fs, new_buffer);
+
+                input_buffer = new_buffer;
+                input_fs = new_size;
+                // no need to free input_buffer since the destructor will do the job for us
+            }
+            encrypt(input_buffer, input_fs, password);
         }
 
-        store_in_image((StegFile::buffer_ + header_size_ + 16), reinterpret_cast<byte *>(bin.get_buffer()), bin.get_file_size());
+        // store the input file
+        // an int is 32 bits and each byte takes 2 of these bits so 16 bytes are required.
+        store_in_image((StegFile::buffer_ + header_size_ + 16), reinterpret_cast<byte *>(input_buffer), input_size);
 
         std::cout << "Finished hiding input data." << std::endl;
 

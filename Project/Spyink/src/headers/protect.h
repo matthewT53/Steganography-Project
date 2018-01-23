@@ -1,6 +1,6 @@
 /*
     Coded by: Matthew Ta
-    Description: This file contains functions to encrypt or decrypt a buffer using AES-256 CBC.
+    Description: This file contains functions to encrypt or decrypt a buffer using AES-256 ECB.
 
     The password is converted into a SHA-256 Hash which is then used as the key to encrypt/decrypt the buffer.
 */
