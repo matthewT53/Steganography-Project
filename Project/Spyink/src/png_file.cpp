@@ -5,6 +5,7 @@
 #include "headers/lodepng.h"
 #include "headers/steg_helper.h"
 #include "headers/bin_file.h"
+#include "headers/protect.h"
 
 std::vector<Byte> PNGFile::signature_ = {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
 
@@ -34,10 +35,30 @@ void PNGFile::hide(const std::string &input_filename, const std::string &passwor
     byte size_buffer[4] = {0};
     w_uint input_size = bin.get_file_size();
     w_uint image_data_size = width_ * height_ * 3;
+    int padding_len = 0;
 
     std::cout << "Hiding in PNG image." << std::endl;
     std::cout << "Hiding file: " << input_filename << std::endl;
     std::cout << "Size: " << input_size << std::endl;
+
+    Byte *input_buffer = bin.get_buffer();
+    if (do_encrypt){
+        if (input_size % 16 != 0){
+            padding_len = (16 - (input_size % 16));
+            w_uint new_size = input_size + padding_len;
+            Byte *new_buffer = new Byte[new_size];
+
+            std::copy(input_buffer, input_buffer + input_size, new_buffer);
+
+            input_buffer = new_buffer;
+            input_size = new_size;
+
+            add_padding(input_buffer, input_size, padding_len);
+            // no need to free input_buffer since the destructor will do the job for us
+        }
+
+        encrypt(input_buffer, input_size, password);
+    }
 
     if (able_to_store(image_data_size, input_size)){
         // store the size of the input file
@@ -49,7 +70,7 @@ void PNGFile::hide(const std::string &input_filename, const std::string &passwor
 
         // store the input file
         // an int is 32 bits and each byte takes 2 of these bits so 16 bytes are required.
-        store_in_image(image_data_ + 16, bin.get_buffer(), bin.get_file_size());
+        store_in_image(image_data_ + 16, input_buffer, input_size);
 
         // write the new file containing the hidden file to disk
         w_uint error = lodepng_encode24_file(std::string(get_file_name() + "_hidden").c_str(), image_data_, width_, height_);
@@ -66,6 +87,7 @@ void PNGFile::reveal(const std::string &output_filename, const std::string &pass
     std::cout << "Revealing what was hidden in this PNG image." << std::endl;
     byte size_buffer[4] = {0};
     w_uint output_size = 0;
+    int new_size = 0;
 
     // extract the size of the hidden file
     extract_bits(image_data_, size_buffer, 4);
@@ -77,14 +99,20 @@ void PNGFile::reveal(const std::string &output_filename, const std::string &pass
     std::cout << "Hidden file size: " << output_size << std::endl;
 
     // extract the hidden file into a buffer
-    char *output_buffer = new char[output_size + 5]; // extra room
+    Byte *output_buffer = new Byte[output_size + 5]; // extra room
 
     // clear the buffer first
     for (int i = 0; i < static_cast<int>(output_size); i++){
         output_buffer[i] = 0;
     }
 
-    extract_bits((image_data_ + 16), (Byte *)output_buffer, output_size);
+    extract_bits((image_data_ + 16), output_buffer, output_size);
+
+    if (do_decrypt){
+        decrypt(output_buffer, output_size, password);
+        remove_padding(output_buffer, output_size, &new_size);
+        output_size = new_size;
+    }
 
     // write buffer to file
     write_to_file(reinterpret_cast<Byte *>(output_buffer), output_size, output_filename + "_revealed");

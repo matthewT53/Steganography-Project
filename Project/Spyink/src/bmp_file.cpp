@@ -43,29 +43,30 @@ void BMPFile::hide(const std::string &input_filename, const std::string &passwor
     std::cout << "Hiding file: " << input_filename << std::endl;
     std::cout << "Size: " << input_size << std::endl;
 
-    // check if our input file will fit into this BMP image.
-    if (able_to_store(get_file_size(), input_size)){
-        // encrypt the input file
-        input_buffer = bin.get_buffer();
-        if (do_encrypt){
-            // make sure the the buffer size is a multiple of 16
-            if (input_size % 16 != 0){
-                padding_len = (16 - (input_size % 16));
-                w_uint new_size = input_size + padding_len;
-                Byte *new_buffer = new Byte[new_size];
+    input_buffer = bin.get_buffer();
 
-                std::copy(input_buffer, input_buffer + input_size, new_buffer);
+    // encrypt the input file
+    if (do_encrypt){
+        // make sure the the buffer size is a multiple of 16
+        if (input_size % 16 != 0){
+            padding_len = (16 - (input_size % 16));
+            w_uint new_size = input_size + padding_len;
+            Byte *new_buffer = new Byte[new_size];
 
-                input_buffer = new_buffer;
-                input_size = new_size;
+            std::copy(input_buffer, input_buffer + input_size, new_buffer);
 
-                add_padding(input_buffer, input_size, padding_len);
-                // no need to free input_buffer since the destructor will do the job for us
-            }
+            input_buffer = new_buffer;
+            input_size = new_size;
 
-            encrypt(input_buffer, input_size, password);
+            add_padding(input_buffer, input_size, padding_len);
+            // no need to free input_buffer since the destructor will do the job for us
         }
 
+        encrypt(input_buffer, input_size, password);
+    }
+
+    // check if our input file will fit into this BMP image.
+    if (able_to_store(get_file_size(), input_size)){
         // store the size of the input file
         size_buffer[0] = 0x000000FF & input_size;
         size_buffer[1] = (0x0000FF00 & input_size) >> 8;
