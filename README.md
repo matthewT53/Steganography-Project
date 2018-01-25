@@ -1,22 +1,22 @@
 # Steganography-Project
-This software is able to hide any file in a variety of image and video formats.
+This software is able to hide any binary file into the following file formats:
+* BMP image
+* PNG image
 
-# Supported formats:
-* Text
-* BMP
-* PNG
-* JPEG (work in progress)
+# Features:
+* AES (ECB) encryption of the input file.
 
 # Installing:
-Execute the Makefile to compile all the source files.
+## Command line version
+* Run the makefile under "Project/Spyink/src/".
 
 # Usage:
 * To hide a file:  
-`./steg -h <image file> <file to hide> <output file> -p <password>`
+`./steg -h -b <image file> -i <input file> -p <password>`
 * To reveal a hidden file:  
-`./steg -r <image file> <output file> -p <password>`
+`./steg -r -b <images file> -o <output file> -p <password>`
 
 # Future work:
-* Add more file types that the user can use to hide stuff inside.
-* Allow the user to encrypt any files they want to hide.
-* Create a small and simple GUI for this program.
+* Implement the more secure CBC mode for AES.
+* Add support for more file types.
+* Revamp the GUI.
