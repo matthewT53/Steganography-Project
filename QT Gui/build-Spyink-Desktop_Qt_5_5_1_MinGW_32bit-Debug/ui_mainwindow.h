@@ -41,7 +41,7 @@ public:
     QToolButton *io_file;
     QLabel *label;
     QLineEdit *lineEdit;
-    QCheckBox *checkBox;
+    QCheckBox *protect_check;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -88,9 +88,10 @@ public:
         lineEdit = new QLineEdit(centralWidget);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
         lineEdit->setGeometry(QRect(30, 300, 171, 21));
-        checkBox = new QCheckBox(centralWidget);
-        checkBox->setObjectName(QStringLiteral("checkBox"));
-        checkBox->setGeometry(QRect(30, 240, 131, 21));
+        lineEdit->setEchoMode(QLineEdit::Password);
+        protect_check = new QCheckBox(centralWidget);
+        protect_check->setObjectName(QStringLiteral("protect_check"));
+        protect_check->setGeometry(QRect(30, 240, 131, 21));
         MainWindow->setCentralWidget(centralWidget);
 
         retranslateUi(MainWindow);
@@ -110,7 +111,7 @@ public:
         media_file->setText(QApplication::translate("MainWindow", "...", 0));
         io_file->setText(QApplication::translate("MainWindow", "...", 0));
         label->setText(QApplication::translate("MainWindow", "Password:", 0));
-        checkBox->setText(QApplication::translate("MainWindow", "Protect with encryption", 0));
+        protect_check->setText(QApplication::translate("MainWindow", "Protect with encryption", 0));
     } // retranslateUi
 
 };

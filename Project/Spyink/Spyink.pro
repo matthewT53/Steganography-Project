@@ -16,7 +16,6 @@ CONFIG += c++11
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    passwordform.cpp \
     src/bits.cpp \
     src/format.cpp \
     src/lodepng.cpp \
@@ -41,8 +40,7 @@ HEADERS  += mainwindow.h \
     src/headers/steg_file.h \
     src/headers/steg_helper.h
 
-FORMS    += mainwindow.ui \
-    passwordform.ui
+FORMS    += mainwindow.ui
 
 DISTFILES += \
     src/output.txt \

@@ -157,7 +157,7 @@
      <string>Password:</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="password">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -166,8 +166,11 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
+    </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="protect_check">
     <property name="geometry">
      <rect>
       <x>30</x>

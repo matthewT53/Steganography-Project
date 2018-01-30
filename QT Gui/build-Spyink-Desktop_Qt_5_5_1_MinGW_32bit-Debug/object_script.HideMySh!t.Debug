@@ -1,7 +1,6 @@
 INPUT(
 ./debug\main.o
 ./debug\mainwindow.o
-./debug\passwordform.o
 ./debug\bits.o
 ./debug\format.o
 ./debug\lodepng.o
