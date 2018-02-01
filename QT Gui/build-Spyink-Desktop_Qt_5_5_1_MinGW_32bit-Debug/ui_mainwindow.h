@@ -40,7 +40,7 @@ public:
     QToolButton *media_file;
     QToolButton *io_file;
     QLabel *label;
-    QLineEdit *lineEdit;
+    QLineEdit *password;
     QCheckBox *protect_check;
 
     void setupUi(QMainWindow *MainWindow)
@@ -85,10 +85,10 @@ public:
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(30, 280, 47, 13));
-        lineEdit = new QLineEdit(centralWidget);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        lineEdit->setGeometry(QRect(30, 300, 171, 21));
-        lineEdit->setEchoMode(QLineEdit::Password);
+        password = new QLineEdit(centralWidget);
+        password->setObjectName(QStringLiteral("password"));
+        password->setGeometry(QRect(30, 300, 171, 21));
+        password->setEchoMode(QLineEdit::Password);
         protect_check = new QCheckBox(centralWidget);
         protect_check->setObjectName(QStringLiteral("protect_check"));
         protect_check->setGeometry(QRect(30, 240, 131, 21));

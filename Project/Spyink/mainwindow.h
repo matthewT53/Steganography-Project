@@ -28,6 +28,7 @@ private slots:
     void perform_action();
     void open_file_browse_window();
     void handle_radio_change();
+    void handle_check_change();
 };
 
 #endif // MAINWINDOW_H

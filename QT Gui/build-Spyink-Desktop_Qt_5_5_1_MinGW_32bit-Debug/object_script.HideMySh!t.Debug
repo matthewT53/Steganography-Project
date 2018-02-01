@@ -11,6 +11,8 @@ INPUT(
 ./debug\png_file.o
 ./debug\steg_file.o
 ./debug\steg_helper.o
+./debug\protect.o
+./debug\sha256.o
+./debug\aes.o
 ./debug\moc_mainwindow.o
-./debug\moc_passwordform.o
 );

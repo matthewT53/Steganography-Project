@@ -25,10 +25,12 @@ SOURCES += main.cpp\
     src/de_steg.cpp \
     src/png_file.cpp \
     src/steg_file.cpp \
-    src/steg_helper.cpp
+    src/steg_helper.cpp \
+    src/protect.cpp \
+    src/sha256.cpp \
+    src/aes.c
 
 HEADERS  += mainwindow.h \
-    passwordform.h \
     src/headers/bits.h \
     src/headers/format.h \
     src/headers/lodepng.h \
@@ -38,7 +40,11 @@ HEADERS  += mainwindow.h \
     src/headers/de_steg.h \
     src/headers/png_file.h \
     src/headers/steg_file.h \
-    src/headers/steg_helper.h
+    src/headers/steg_helper.h \
+    src/headers/aes.h \
+    src/headers/aes.hpp \
+    src/headers/protect.h \
+    src/headers/sha256.h
 
 FORMS    += mainwindow.ui
 

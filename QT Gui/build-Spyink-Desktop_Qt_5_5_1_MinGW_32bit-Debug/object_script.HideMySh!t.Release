@@ -11,6 +11,8 @@ INPUT(
 ./release\png_file.o
 ./release\steg_file.o
 ./release\steg_helper.o
+./release\protect.o
+./release\sha256.o
+./release\aes.o
 ./release\moc_mainwindow.o
-./release\moc_passwordform.o
 );

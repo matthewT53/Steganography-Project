@@ -22,10 +22,13 @@ MainWindow::MainWindow(QWidget *parent) :
     // leave the radio button set to hide on default
     connect(ui->radio_hide, SIGNAL(clicked()), this, SLOT( handle_radio_change() ));
     connect(ui->radio_reveal, SIGNAL(clicked()), this, SLOT( handle_radio_change() ));
-    this->hide_file_ = true;
-    ui->radio_hide->click();
+    connect(ui->protect_check, SIGNAL(clicked(bool)), this, SLOT( handle_check_change() ));
 
+    this->hide_file_ = true;
     this->password_set_ = false;
+
+    ui->radio_hide->click();
+    ui->password->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -42,18 +45,36 @@ void MainWindow::close_window()
 // hides or reveals a file
 void MainWindow::perform_action()
 {
+    std::string media_filename = ui->media_edit->text().toLocal8Bit().constData();
+    std::string io_filename = ui->io_edit->text().toLocal8Bit().constData();
+    std::string password = "";
+
     // get the password
-    QString password = "";
     if (password_set_){
-        password = ui->password->text();
+        password = ui->password->text().toLocal8Bit().constData();
     }
 
     if (hide_file_){
-
+        Hide h(media_filename, io_filename, password);
+        h.begin_hide(password_set_);
     }
 
     else{
+        Reveal r(media_filename, io_filename, password);
+        r.begin_reveal(password_set_);
+    }
+}
 
+void MainWindow::handle_check_change()
+{
+    bool is_checked = ui->protect_check->isChecked();
+
+    if (is_checked){
+        ui->password->setEnabled(true);
+    }
+
+    else{
+        ui->password->setEnabled(false);
     }
 }
 
@@ -82,6 +103,11 @@ void MainWindow::handle_radio_change()
 
     this->password_set_ = false;
 
+    // clear the input fields
+    ui->io_edit->clear();
+    ui->media_edit->clear();
+    ui->password->clear();
+
     if (radioBut->text() == "Hide"){
         this->hide_file_ = true;
         ui->io_label->setText("Input file:");
@@ -92,7 +118,7 @@ void MainWindow::handle_radio_change()
     else{
         this->hide_file_ = false;
         ui->io_label->setText("Output file:");
-        ui->protect_check->setText("File is encrypted.");
+        ui->protect_check->setText("Decrypt hidden file.");
         ui->action->setText("Reveal");
     }
 }

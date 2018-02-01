@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "headers/protect.h"
-#include "headers/aes.h"
+#include "headers/aes.hpp"
 #include "headers/sha256.h"
 
 // need to re-size buffer to be a multiple of 16
