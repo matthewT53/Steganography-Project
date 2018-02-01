@@ -48,6 +48,13 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
         MainWindow->resize(271, 418);
+        MainWindow->setAutoFillBackground(false);
+        MainWindow->setStyleSheet(QLatin1String("QWidget {color: white; background-color: rgb(45,59,69); }\n"
+"QPushButton { color: white; background-color: rgb(50, 136, 206); border: none;}\n"
+"QToolButton { color: white; background-color: rgb(50, 136, 206); border: none; }\n"
+"QLineEdit:hover {border: 2px solid rgb(50, 136, 206); background-color:  rgb(45,59,69); }\n"
+""));
+        MainWindow->setAnimated(true);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         AppName = new QLabel(centralWidget);
@@ -64,6 +71,7 @@ public:
         action = new QPushButton(centralWidget);
         action->setObjectName(QStringLiteral("action"));
         action->setGeometry(QRect(70, 340, 131, 41));
+        action->setAutoFillBackground(false);
         media_label = new QLabel(centralWidget);
         media_label->setObjectName(QStringLiteral("media_label"));
         media_label->setGeometry(QRect(30, 110, 81, 17));
@@ -73,6 +81,7 @@ public:
         media_edit = new QLineEdit(centralWidget);
         media_edit->setObjectName(QStringLiteral("media_edit"));
         media_edit->setGeometry(QRect(30, 130, 171, 21));
+        media_edit->setAutoFillBackground(false);
         io_edit = new QLineEdit(centralWidget);
         io_edit->setObjectName(QStringLiteral("io_edit"));
         io_edit->setGeometry(QRect(30, 190, 171, 21));

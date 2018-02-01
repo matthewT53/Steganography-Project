@@ -5,8 +5,6 @@
 
 #include <QDebug>
 
-#define MAX_LEN 500
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -83,7 +81,7 @@ void MainWindow::open_file_browse_window()
     QString filename = QFileDialog::getOpenFileName(this,
                                          "Select a file",
                                          "",
-                                         "All Files (*.*);;BMP images (.bmp);;PNG images (.png);;");
+                                         "All Files (*.*);;BMP images (*.bmp);;PNG images (*.png);;");
     QToolButton *button = (QToolButton *)QObject::sender();
     QString button_text = button->objectName();
 

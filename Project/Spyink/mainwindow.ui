@@ -13,6 +13,19 @@
   <property name="windowTitle">
    <string>SpyInk</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {color: white; background-color: rgb(45,59,69); }
+QPushButton { color: white; background-color: rgb(50, 136, 206); border: none;}
+QToolButton { color: white; background-color: rgb(50, 136, 206); border: none; }
+QLineEdit:hover {border: 2px solid rgb(50, 136, 206); background-color:  rgb(45,59,69); }
+</string>
+  </property>
+  <property name="animated">
+   <bool>true</bool>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QLabel" name="AppName">
     <property name="geometry">
@@ -68,6 +81,9 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
     <property name="text">
      <string>Hide</string>
     </property>
@@ -106,6 +122,9 @@
       <width>171</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="io_edit">
