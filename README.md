@@ -18,8 +18,7 @@ This software is able to hide any binary file into the following file formats:
 
 # Future work:
 * Implement the more secure CBC mode for AES.
-* Add support for more file types.
-* Revamp the GUI.
+* Add support for JPEG and other file types.
 
 # Libaries used:
 * lodepng - https://github.com/lvandeve/lodepng
