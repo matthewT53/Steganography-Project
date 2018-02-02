@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->password->setEnabled(false);
 
     message_box_.setStandardButtons(QMessageBox::Ok);
+    message_box_.setModal(true);
 }
 
 MainWindow::~MainWindow()
