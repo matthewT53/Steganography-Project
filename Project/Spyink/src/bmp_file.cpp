@@ -81,7 +81,10 @@ void BMPFile::hide(const std::string &input_filename, const std::string &passwor
         std::cout << "Finished hiding input data." << std::endl;
 
         // write the new file containing the hidden file to disk
-        write_to_file(StegFile::buffer_, get_file_size(), get_file_name() + "_hidden");
+        std::string original_filename = get_file_name();
+        int pos = original_filename.find(".bmp");
+        std::string output_filename = original_filename.substr(0, pos) + "_hidden.bmp";
+        write_to_file(StegFile::buffer_, get_file_size(), output_filename);
 
         std::cout << "Finished hiding file." << std::endl;
     }

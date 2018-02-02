@@ -72,8 +72,13 @@ void PNGFile::hide(const std::string &input_filename, const std::string &passwor
         // an int is 32 bits and each byte takes 2 of these bits so 16 bytes are required.
         store_in_image(image_data_ + 16, input_buffer, input_size);
 
+        // format the output filename
+        std::string original_filename = get_file_name();
+        int pos = original_filename.find(".png");
+        std::string output_filename = original_filename.substr(0, pos) + "_hidden.png";
+
         // write the new file containing the hidden file to disk
-        w_uint error = lodepng_encode24_file(std::string(get_file_name() + "_hidden").c_str(), image_data_, width_, height_);
+        w_uint error = lodepng_encode24_file(output_filename.c_str(), image_data_, width_, height_);
         if (error){
             std::cout << "Error writing png image data to disk." << std::endl;
         }
