@@ -88,10 +88,12 @@ void MainWindow::handle_check_change()
 
     if (is_checked){
         ui->password->setEnabled(true);
+        password_set_ = true;
     }
 
     else{
         ui->password->setEnabled(false);
+        password_set_ = false;
     }
 }
 
@@ -118,12 +120,13 @@ void MainWindow::handle_radio_change()
 {
     QRadioButton *radioBut = (QRadioButton *) QObject::sender();
 
-    this->password_set_ = false;
+    password_set_ = false;
 
     // clear the input fields
     ui->io_edit->clear();
     ui->media_edit->clear();
     ui->password->clear();
+    ui->protect_check->setChecked(false);
 
     if (radioBut->text() == "Hide"){
         this->hide_file_ = true;
