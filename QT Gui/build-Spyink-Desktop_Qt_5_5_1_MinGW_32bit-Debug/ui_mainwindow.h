@@ -42,12 +42,13 @@ public:
     QLabel *label;
     QLineEdit *password;
     QCheckBox *protect_check;
+    QLabel *label_2;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(271, 418);
+        MainWindow->resize(271, 440);
         MainWindow->setAutoFillBackground(false);
         MainWindow->setStyleSheet(QLatin1String("QWidget {color: white; background-color: rgb(45,59,69); }\n"
 "QPushButton { color: white; background-color: rgb(50, 136, 206); border: none;}\n"
@@ -101,6 +102,9 @@ public:
         protect_check = new QCheckBox(centralWidget);
         protect_check->setObjectName(QStringLiteral("protect_check"));
         protect_check->setGeometry(QRect(30, 240, 131, 21));
+        label_2 = new QLabel(centralWidget);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setGeometry(QRect(190, 420, 71, 16));
         MainWindow->setCentralWidget(centralWidget);
 
         retranslateUi(MainWindow);
@@ -121,6 +125,7 @@ public:
         io_file->setText(QApplication::translate("MainWindow", "...", 0));
         label->setText(QApplication::translate("MainWindow", "Password:", 0));
         protect_check->setText(QApplication::translate("MainWindow", "Protect with encryption", 0));
+        label_2->setText(QApplication::translate("MainWindow", "Version: 1.0", 0));
     } // retranslateUi
 
 };

@@ -7,7 +7,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    message_box_(this)
 {
     ui->setupUi(this);
 
@@ -52,14 +53,22 @@ void MainWindow::perform_action()
         password = ui->password->text().toLocal8Bit().constData();
     }
 
-    if (hide_file_){
-        Hide h(media_filename, io_filename, password);
-        h.begin_hide(password_set_);
-    }
+    if (media_filename.size() > 0 && io_filename.size() > 0){
+        if (hide_file_){
+            Hide h(media_filename, io_filename, password);
+            h.begin_hide(password_set_);
 
-    else{
-        Reveal r(media_filename, io_filename, password);
-        r.begin_reveal(password_set_);
+
+            message_box_.show();
+        }
+
+        else{
+            Reveal r(media_filename, io_filename, password);
+            r.begin_reveal(password_set_);
+
+
+            message_box_.show();
+        }
     }
 }
 
