@@ -53,6 +53,8 @@ public:
         MainWindow->setStyleSheet(QLatin1String("QWidget {color: white; background-color: rgb(45,59,69); }\n"
 "QPushButton { color: white; background-color: rgb(50, 136, 206); border: none;}\n"
 "QToolButton { color: white; background-color: rgb(50, 136, 206); border: none; }\n"
+"QPushButton:hover { color: white; background-color: rgb(85, 170, 255); border: none; }\n"
+"QToolButton:hover { color: white; background-color: rgb(85, 170, 255); border: none; }\n"
 "QLineEdit:hover {border: 2px solid rgb(50, 136, 206); background-color:  rgb(45,59,69); }\n"
 ""));
         MainWindow->setAnimated(true);

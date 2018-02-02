@@ -4,8 +4,7 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QDir>
-#include <QDialog>
-#include <QDialogButtonBox>
+#include <QMessageBox>
 
 namespace Ui {
 class MainWindow;
@@ -21,7 +20,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QDialog message_box_;
+    QMessageBox message_box_;
 
     bool hide_file_; // determines whether we hide or reveal a file
     bool password_set_; // indicates whetehr the password has been set

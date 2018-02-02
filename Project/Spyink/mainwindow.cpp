@@ -28,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->radio_hide->click();
     ui->password->setEnabled(false);
+
+    message_box_.setStandardButtons(QMessageBox::Ok);
 }
 
 MainWindow::~MainWindow()
@@ -58,17 +60,25 @@ void MainWindow::perform_action()
             Hide h(media_filename, io_filename, password);
             h.begin_hide(password_set_);
 
-
-            message_box_.show();
+            message_box_.setWindowTitle("Success!");
+            message_box_.setText("Finished hiding file.");
+            message_box_.exec();
         }
 
         else{
             Reveal r(media_filename, io_filename, password);
             r.begin_reveal(password_set_);
 
-
-            message_box_.show();
+            message_box_.setWindowTitle("Success!");
+            message_box_.setText("Found hidden file.");
+            message_box_.exec();
         }
+    }
+
+    else{
+        message_box_.setWindowTitle("Failure!");
+        message_box_.setText("Enter a media file as well as an input/output file.");
+        message_box_.exec();
     }
 }
 

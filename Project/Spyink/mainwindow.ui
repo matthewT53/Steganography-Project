@@ -20,6 +20,8 @@
    <string notr="true">QWidget {color: white; background-color: rgb(45,59,69); }
 QPushButton { color: white; background-color: rgb(50, 136, 206); border: none;}
 QToolButton { color: white; background-color: rgb(50, 136, 206); border: none; }
+QPushButton:hover { color: white; background-color: rgb(85, 170, 255); border: none; }
+QToolButton:hover { color: white; background-color: rgb(85, 170, 255); border: none; }
 QLineEdit:hover {border: 2px solid rgb(50, 136, 206); background-color:  rgb(45,59,69); }
 </string>
   </property>
