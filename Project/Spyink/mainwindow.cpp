@@ -23,8 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->radio_reveal, SIGNAL(clicked()), this, SLOT( handle_radio_change() ));
     connect(ui->protect_check, SIGNAL(clicked(bool)), this, SLOT( handle_check_change() ));
 
-    this->hide_file_ = true;
-    this->password_set_ = false;
+    hide_file_ = true;
+    password_set_ = false;
 
     ui->radio_hide->click();
     ui->password->setEnabled(false);
@@ -122,6 +122,7 @@ void MainWindow::handle_radio_change()
     QRadioButton *radioBut = (QRadioButton *) QObject::sender();
 
     password_set_ = false;
+    ui->password->setEnabled(false);
 
     // clear the input fields
     ui->io_edit->clear();
