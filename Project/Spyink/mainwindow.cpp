@@ -14,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // events
     connect(ui->action, SIGNAL(clicked()), this, SLOT( perform_action() ));
-
     connect(ui->media_file, SIGNAL(clicked()), this, SLOT( open_file_browse_window() ));
     connect(ui->io_file, SIGNAL(clicked(bool)), this, SLOT( open_file_browse_window()));
 
